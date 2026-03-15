@@ -5,17 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TexVault</title>
   <link rel="stylesheet" href="style.css">
-  <script>
-    window.MathJax = {
-      tex: {
-        inlineMath: [['$', '$'], ['\\(', '\\)']],
-        displayMath: [['$$', '$$'], ['\\[', '\\]']],
-        packages: {'[+]': ['ams']}
-      },
-      svg: { fontCache: 'global', scale: 0.9 },
-      startup: { typeset: false }
-    };
-  </script>
+  <script src="mathjax-config.js"></script>
   <script src="mathjax.js" id="MathJax-script"></script>
 </head>
 <body>
@@ -53,7 +43,6 @@
 
 </div>
 
-<!-- Add Snippet Modal -->
 <div class="modal-overlay" id="modal-overlay">
   <div class="modal">
     <div class="modal-title">Add snippet</div>
