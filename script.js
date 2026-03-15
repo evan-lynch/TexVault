@@ -1,6 +1,6 @@
-// ── Snippet data ─────────────────────────────────────────────────────────────
+// ── Snippet data ──────────────────────────────────────────────────────────────
 //
-// preview: a LaTeX string (rendered by MathJax) OR one of the special keys:
+// preview: a LaTeX string (rendered by MathJax) OR one of:
 //   'svg-bar', 'svg-multicol', 'svg-figure', 'svg-bib'
 //
 const snippetData = {
@@ -122,7 +122,7 @@ Trivial. \\qed
 };
 
 
-// ── SVG previews ──────────────────────────────────────────────────────────────
+// ── SVG / HTML previews ───────────────────────────────────────────────────────
 
 function svgBar() {
   return `<svg width="104" height="62" viewBox="0 0 104 62" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -140,14 +140,16 @@ function svgBar() {
 }
 
 function svgMulticol() {
-  const lines = (x, ys) => ys.map(y =>
-    `<rect x="${x}" y="${y}" width="${22 + (y * 3) % 10}" height="2.5" rx="1" fill="#b8c8d8"/>`
+  const leftLines = [10, 17, 24, 31, 38, 45].map(y =>
+    `<rect x="8" y="${y}" width="${20 + (y % 7) * 2}" height="2.5" rx="1" fill="#b8c8d8"/>`
+  ).join('');
+  const rightLines = [10, 17, 24, 31, 38, 45].map(y =>
+    `<rect x="60" y="${y}" width="${18 + (y % 5) * 2}" height="2.5" rx="1" fill="#b8c8d8"/>`
   ).join('');
   return `<svg width="104" height="62" viewBox="0 0 104 62" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect x="4"  y="4" width="44" height="54" rx="3" fill="#eef1f7" stroke="#d4dcea" stroke-width="0.8"/>
     <rect x="56" y="4" width="44" height="54" rx="3" fill="#eef1f7" stroke="#d4dcea" stroke-width="0.8"/>
-    ${lines(8,  [10, 17, 24, 31, 38, 45])}
-    ${lines(60, [10, 17, 24, 31, 38, 45])}
+    ${leftLines}${rightLines}
   </svg>`;
 }
 
@@ -184,9 +186,7 @@ function buildCard(snippet) {
   card.addEventListener('click', function (e) {
     if (e.target.classList.contains('snippet-desc')) return;
     navigator.clipboard.writeText(snippet.code).then(() => {
-      card.classList.add('flash');
-      showToast();
-      setTimeout(() => card.classList.remove('flash'), 700);
+      flashAndToast(card);
     }).catch(() => {
       // Fallback for environments without clipboard API
       const ta = document.createElement('textarea');
@@ -195,9 +195,7 @@ function buildCard(snippet) {
       ta.select();
       document.execCommand('copy');
       document.body.removeChild(ta);
-      card.classList.add('flash');
-      showToast();
-      setTimeout(() => card.classList.remove('flash'), 700);
+      flashAndToast(card);
     });
   });
 
@@ -213,10 +211,12 @@ function buildCard(snippet) {
     preview.innerHTML = svgFigure();
   } else if (snippet.preview === 'svg-bib') {
     preview.innerHTML = svgBib();
-  } else {
-    // LaTeX — will be typeset by MathJax after DOM insertion
+  } else if (snippet.preview) {
+    // LaTeX string — will be typeset by MathJax after DOM insertion
     preview.textContent = snippet.preview;
     preview.dataset.mathjax = 'pending';
+  } else {
+    preview.innerHTML = '<div class="preview-placeholder">no preview</div>';
   }
 
   // Meta
@@ -232,7 +232,6 @@ function buildCard(snippet) {
   descEl.rows = 1;
   descEl.value = snippet.desc;
   descEl.placeholder = 'Add description…';
-  // Stop card click propagating when typing
   descEl.addEventListener('mousedown', e => e.stopPropagation());
 
   meta.appendChild(nameEl);
@@ -254,6 +253,12 @@ function buildCard(snippet) {
   return card;
 }
 
+function flashAndToast(card) {
+  card.classList.add('flash');
+  showToast();
+  setTimeout(() => card.classList.remove('flash'), 700);
+}
+
 
 // ── MathJax rendering ─────────────────────────────────────────────────────────
 
@@ -266,9 +271,7 @@ function renderPendingPreviews() {
     return;
   }
 
-  pending.forEach(el => {
-    el.removeAttribute('data-mathjax');
-  });
+  pending.forEach(el => el.removeAttribute('data-mathjax'));
 
   MathJax.typesetPromise(Array.from(pending)).then(() => {
     pending.forEach(el => {
@@ -291,15 +294,13 @@ function buildAll() {
   snippetData.custom.forEach(s => customGrid.appendChild(buildCard(s)));
   snippetData.templates.forEach(s => templatesGrid.appendChild(buildCard(s)));
 
-  // Wait for MathJax to be ready, then render
+  // Render MathJax once it's ready
+  const mjScript = document.getElementById('MathJax-script');
   if (window.MathJax && MathJax.typesetPromise) {
     renderPendingPreviews();
-  } else {
-    document.getElementById('MathJax-script').addEventListener('load', () => {
-      setTimeout(renderPendingPreviews, 200);
-    });
-    // Fallback poll
-    setTimeout(renderPendingPreviews, 1000);
+  } else if (mjScript) {
+    mjScript.addEventListener('load', () => setTimeout(renderPendingPreviews, 200));
+    setTimeout(renderPendingPreviews, 1500); // fallback poll
   }
 }
 
@@ -358,6 +359,7 @@ function closeModal(e) {
 function saveSnippet() {
   const name = document.getElementById('modal-name').value.trim();
   const code = document.getElementById('modal-code').value.trim();
+
   if (!name || !code) {
     alert('Please enter a name and some LaTeX code.');
     return;
@@ -367,15 +369,15 @@ function saveSnippet() {
     .split(',').map(t => t.trim()).filter(Boolean);
   const desc = document.getElementById('modal-desc').value.trim() || 'Custom snippet';
 
-  const snippet = { name, tags: tags.length ? tags : ['custom'], desc, preview: null, code };
-  const card = buildCard(snippet);
+  const snippet = {
+    name,
+    tags: tags.length ? tags : ['custom'],
+    desc,
+    preview: null,
+    code,
+  };
 
-  // If preview looks like LaTeX, attempt to render it
-  // (for user-added snippets we skip preview rendering — just show placeholder)
-  const preview = card.querySelector('.snippet-preview');
-  preview.innerHTML = '<div class="preview-placeholder">no preview</div>';
-
-  document.getElementById('custom-grid').appendChild(card);
+  document.getElementById('custom-grid').appendChild(buildCard(snippet));
   closeAddModal();
 }
 

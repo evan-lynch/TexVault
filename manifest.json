@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "TexVault",
+  "version": "1.0",
+  "description": "A personal LaTeX snippet library for Overleaf",
+
+  "action": {
+    "default_popup": "index.html"
+  },
+
+  "permissions": [
+    "storage",
+    "clipboardWrite"
+  ]
+}
