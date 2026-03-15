@@ -1,8 +1,4 @@
 // ── Snippet data ──────────────────────────────────────────────────────────────
-//
-// preview: a LaTeX string (rendered by MathJax) OR one of:
-//   'svg-bar', 'svg-multicol', 'svg-figure', 'svg-bib'
-//
 const snippetData = {
   custom: [
     {
@@ -63,14 +59,14 @@ Trivial. \\qed
     {
       name: 'Quadratic formula',
       tags: ['math', 'formula'],
-      desc: 'Roots of ax²+bx+c=0',
+      desc: 'Roots of ax2+bx+c=0',
       preview: '$$x = \\dfrac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$$',
       code: '$$x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$$',
     },
     {
       name: 'Matrix',
       tags: ['math', 'matrix'],
-      desc: '3×3 matrix environment',
+      desc: '3x3 matrix environment',
       preview: '$$\\begin{pmatrix} a & b & c \\\\ d & e & f \\\\ g & h & i \\end{pmatrix}$$',
       code: `\\begin{equation}
   \\begin{pmatrix}
@@ -121,13 +117,12 @@ Trivial. \\qed
   ],
 };
 
-
-// ── SVG / HTML previews ───────────────────────────────────────────────────────
+// ── SVG previews ──────────────────────────────────────────────────────────────
 
 function svgBar() {
   return `<svg width="104" height="62" viewBox="0 0 104 62" fill="none" xmlns="http://www.w3.org/2000/svg">
     <line x1="14" y1="54" x2="98" y2="54" stroke="#8fa3bf" stroke-width="1"/>
-    <line x1="14" y1="8"  x2="14" y2="54" stroke="#8fa3bf" stroke-width="1"/>
+    <line x1="14" y1="8" x2="14" y2="54" stroke="#8fa3bf" stroke-width="1"/>
     <rect x="19" y="38" width="14" height="16" fill="#5a7aaa" rx="1.5"/>
     <rect x="38" y="20" width="14" height="34" fill="#5a7aaa" rx="1.5"/>
     <rect x="57" y="44" width="14" height="10" fill="#5a7aaa" rx="1.5"/>
@@ -147,7 +142,7 @@ function svgMulticol() {
     `<rect x="60" y="${y}" width="${18 + (y % 5) * 2}" height="2.5" rx="1" fill="#b8c8d8"/>`
   ).join('');
   return `<svg width="104" height="62" viewBox="0 0 104 62" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect x="4"  y="4" width="44" height="54" rx="3" fill="#eef1f7" stroke="#d4dcea" stroke-width="0.8"/>
+    <rect x="4" y="4" width="44" height="54" rx="3" fill="#eef1f7" stroke="#d4dcea" stroke-width="0.8"/>
     <rect x="56" y="4" width="44" height="54" rx="3" fill="#eef1f7" stroke="#d4dcea" stroke-width="0.8"/>
     ${leftLines}${rightLines}
   </svg>`;
@@ -165,14 +160,15 @@ function svgFigure() {
 }
 
 function svgBib() {
-  return `<div style="font-size:8.5px;color:#5a7aaa;font-family:monospace;line-height:1.65;text-align:left;padding:4px 6px;">
-    <span style="color:#3a5a8a;font-weight:700;">@article</span><span style="color:#2c3a52;">{key2024,</span><br>
-    &nbsp;&nbsp;<span style="color:#7a9aba;">author</span> = {Last, F.},<br>
-    &nbsp;&nbsp;<span style="color:#7a9aba;">year</span> &nbsp; = {2024},<br>
-    <span style="color:#2c3a52;">}</span>
-  </div>`;
+  const div = document.createElement('div');
+  div.style.cssText = 'font-size:8.5px;color:#5a7aaa;font-family:monospace;line-height:1.65;text-align:left;padding:4px 6px;';
+  div.innerHTML = '<span style="color:#3a5a8a;font-weight:700;">@article</span>'
+    + '<span style="color:#2c3a52;">{key2024,</span><br>'
+    + '&nbsp;&nbsp;<span style="color:#7a9aba;">author</span> = {Last, F.},<br>'
+    + '&nbsp;&nbsp;<span style="color:#7a9aba;">year</span>&nbsp;&nbsp; = {2024},<br>'
+    + '<span style="color:#2c3a52;">}</span>';
+  return div;
 }
-
 
 // ── Card builder ──────────────────────────────────────────────────────────────
 
@@ -182,13 +178,11 @@ function buildCard(snippet) {
   card.dataset.name = snippet.name.toLowerCase();
   card.dataset.tags = snippet.tags.join(' ').toLowerCase();
 
-  // Click to copy (but not when clicking the description textarea)
   card.addEventListener('click', function (e) {
     if (e.target.classList.contains('snippet-desc')) return;
     navigator.clipboard.writeText(snippet.code).then(() => {
       flashAndToast(card);
     }).catch(() => {
-      // Fallback for environments without clipboard API
       const ta = document.createElement('textarea');
       ta.value = snippet.code;
       document.body.appendChild(ta);
@@ -210,13 +204,15 @@ function buildCard(snippet) {
   } else if (snippet.preview === 'svg-figure') {
     preview.innerHTML = svgFigure();
   } else if (snippet.preview === 'svg-bib') {
-    preview.innerHTML = svgBib();
+    preview.appendChild(svgBib());
   } else if (snippet.preview) {
-    // LaTeX string — will be typeset by MathJax after DOM insertion
     preview.textContent = snippet.preview;
     preview.dataset.mathjax = 'pending';
   } else {
-    preview.innerHTML = '<div class="preview-placeholder">no preview</div>';
+    const ph = document.createElement('div');
+    ph.className = 'preview-placeholder';
+    ph.textContent = 'no preview';
+    preview.appendChild(ph);
   }
 
   // Meta
@@ -231,13 +227,12 @@ function buildCard(snippet) {
   descEl.className = 'snippet-desc';
   descEl.rows = 1;
   descEl.value = snippet.desc;
-  descEl.placeholder = 'Add description…';
+  descEl.placeholder = 'Add description...';
   descEl.addEventListener('mousedown', e => e.stopPropagation());
 
   meta.appendChild(nameEl);
   meta.appendChild(descEl);
 
-  // Tags
   const tagRow = document.createElement('div');
   tagRow.className = 'tag-row';
   snippet.tags.forEach(t => {
@@ -258,7 +253,6 @@ function flashAndToast(card) {
   showToast();
   setTimeout(() => card.classList.remove('flash'), 700);
 }
-
 
 // ── MathJax rendering ─────────────────────────────────────────────────────────
 
@@ -284,7 +278,6 @@ function renderPendingPreviews() {
   }).catch(err => console.warn('MathJax error:', err));
 }
 
-
 // ── Build grids ───────────────────────────────────────────────────────────────
 
 function buildAll() {
@@ -294,26 +287,23 @@ function buildAll() {
   snippetData.custom.forEach(s => customGrid.appendChild(buildCard(s)));
   snippetData.templates.forEach(s => templatesGrid.appendChild(buildCard(s)));
 
-  // Render MathJax once it's ready
   const mjScript = document.getElementById('MathJax-script');
   if (window.MathJax && MathJax.typesetPromise) {
     renderPendingPreviews();
   } else if (mjScript) {
     mjScript.addEventListener('load', () => setTimeout(renderPendingPreviews, 200));
-    setTimeout(renderPendingPreviews, 1500); // fallback poll
+    setTimeout(renderPendingPreviews, 1500);
   }
 }
 
-
 // ── Tab switching ─────────────────────────────────────────────────────────────
 
-function switchTab(name, btn) {
+function switchTab(name) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.panel-tab').forEach(p => p.classList.remove('active'));
-  btn.classList.add('active');
+  document.getElementById('tab-btn-' + name).classList.add('active');
   document.getElementById('tab-' + name).classList.add('active');
 }
-
 
 // ── Search / filter ───────────────────────────────────────────────────────────
 
@@ -327,7 +317,6 @@ function filterSnippets(val) {
   });
 }
 
-
 // ── Toast ─────────────────────────────────────────────────────────────────────
 
 function showToast() {
@@ -336,8 +325,7 @@ function showToast() {
   setTimeout(() => toast.classList.remove('show'), 1600);
 }
 
-
-// ── Add snippet modal ─────────────────────────────────────────────────────────
+// ── Modal ─────────────────────────────────────────────────────────────────────
 
 function openAddModal() {
   document.getElementById('modal-overlay').classList.add('open');
@@ -346,14 +334,9 @@ function openAddModal() {
 
 function closeAddModal() {
   document.getElementById('modal-overlay').classList.remove('open');
-  document.getElementById('modal-name').value = '';
-  document.getElementById('modal-tags').value = '';
-  document.getElementById('modal-desc').value = '';
-  document.getElementById('modal-code').value = '';
-}
-
-function closeModal(e) {
-  if (e.target === document.getElementById('modal-overlay')) closeAddModal();
+  ['modal-name', 'modal-tags', 'modal-desc', 'modal-code'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
 }
 
 function saveSnippet() {
@@ -369,19 +352,38 @@ function saveSnippet() {
     .split(',').map(t => t.trim()).filter(Boolean);
   const desc = document.getElementById('modal-desc').value.trim() || 'Custom snippet';
 
-  const snippet = {
-    name,
-    tags: tags.length ? tags : ['custom'],
-    desc,
-    preview: null,
-    code,
-  };
-
+  const snippet = { name, tags: tags.length ? tags : ['custom'], desc, preview: null, code };
   document.getElementById('custom-grid').appendChild(buildCard(snippet));
   closeAddModal();
 }
 
+// ── Wire up all event listeners ───────────────────────────────────────────────
 
-// ── Init ──────────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', function () {
+  buildAll();
 
-buildAll();
+  document.getElementById('tab-btn-custom')
+    .addEventListener('click', () => switchTab('custom'));
+  document.getElementById('tab-btn-templates')
+    .addEventListener('click', () => switchTab('templates'));
+
+  document.getElementById('search-input')
+    .addEventListener('input', e => filterSnippets(e.target.value));
+
+  document.getElementById('btn-add')
+    .addEventListener('click', openAddModal);
+
+  document.getElementById('btn-modal-cancel')
+    .addEventListener('click', closeAddModal);
+
+  document.getElementById('btn-modal-save')
+    .addEventListener('click', saveSnippet);
+
+  document.getElementById('modal-overlay')
+    .addEventListener('click', function (e) {
+      if (e.target === this) closeAddModal();
+    });
+
+  document.getElementById('btn-close')
+    .addEventListener('click', () => window.close());
+});
