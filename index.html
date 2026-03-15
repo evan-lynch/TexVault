@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TexVault</title>
+  <link rel="stylesheet" href="style.css">
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        packages: {'[+]': ['ams']}
+      },
+      svg: { fontCache: 'global', scale: 0.9 },
+      startup: { typeset: false }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" id="MathJax-script"></script>
+</head>
+<body>
+
+<div class="ext-panel">
+
+  <!-- Header -->
+  <div class="ext-header">
+    <div class="ext-title-row">
+      <span class="ext-title">TexVault</span>
+      <button class="ext-close" title="Close">✕</button>
+    </div>
+    <input class="search-bar" placeholder="Search snippets…" id="search-input" oninput="filterSnippets(this.value)">
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('custom', this)">Custom</button>
+      <button class="tab" onclick="switchTab('templates', this)">Templates</button>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="snippets-area">
+
+    <!-- Custom Tab -->
+    <div id="tab-custom" class="panel-tab active">
+      <div class="section-label">My snippets</div>
+      <div class="snippet-grid" id="custom-grid"></div>
+      <button class="add-btn" onclick="openAddModal()">+ Add snippet</button>
+    </div>
+
+    <!-- Templates Tab -->
+    <div id="tab-templates" class="panel-tab">
+      <div class="section-label">Premade templates</div>
+      <div class="snippet-grid" id="templates-grid"></div>
+    </div>
+
+  </div>
+
+  <!-- Toast notification -->
+  <div class="toast" id="toast">Copied to clipboard!</div>
+
+</div>
+
+<!-- Add Snippet Modal -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="modal-title">Add snippet</div>
+    <label class="modal-label">Name</label>
+    <input class="modal-input" id="modal-name" placeholder="e.g. Bar chart">
+    <label class="modal-label">Tags <span style="color:#9aa5bb;font-weight:400">(comma separated)</span></label>
+    <input class="modal-input" id="modal-tags" placeholder="e.g. graph, tikz">
+    <label class="modal-label">Description</label>
+    <input class="modal-input" id="modal-desc" placeholder="Short description">
+    <label class="modal-label">LaTeX code</label>
+    <textarea class="modal-textarea" id="modal-code" placeholder="Paste your LaTeX here…"></textarea>
+    <div class="modal-actions">
+      <button class="modal-cancel" onclick="closeAddModal()">Cancel</button>
+      <button class="modal-save" onclick="saveSnippet()">Save</button>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
