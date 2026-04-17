@@ -3,7 +3,7 @@
   "name": "TexVault",
   "short_name": "TexVault",
   "version": "1.0",
-  "description": "Your personal LaTeX snippet vault. Browse 100+ built-in templates or save your own custom snippets, organized into folders and ready to copy instantly.",
+  "description": "Your LaTeX snippet vault. Browse 100+ built-in templates or save your own, organized into folders and ready to copy instantly.",
 
   "icons": {
     "16":  "icons/icon16.png",
