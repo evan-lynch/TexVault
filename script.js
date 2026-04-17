@@ -1458,11 +1458,21 @@ document.addEventListener('DOMContentLoaded', () => {
       if (sidebarOpen) renderFolderSidebar();
       updateFolderIndicator();   // show indicator if a folder was restored
 
-      // Show first-launch tip if user has no snippets yet and hasn't seen it.
-      // Delay slightly so the UI finishes painting before the tip animates in.
-      if (customSnippets.length === 0 && !appSettings.hasSeenTip) {
-        setTimeout(showOnboardTip, 400);
-      }
+      // Check if the popup was opened via the right-click context menu.
+      // If so, pre-fill the snippet modal with the selected text and open it.
+      chrome.storage.local.get('pendingSnippet', (local) => {
+        if (local.pendingSnippet) {
+          chrome.storage.local.remove('pendingSnippet');
+          switchTab('custom');
+          openModal(null, local.pendingSnippet);
+          return;
+        }
+
+        // Show first-launch tip if user has no snippets yet and hasn't seen it.
+        if (customSnippets.length === 0 && !appSettings.hasSeenTip) {
+          setTimeout(showOnboardTip, 400);
+        }
+      });
 
       // The popup's initial layout isn't complete when the storage callback fires,
       // so the per-card requestAnimationFrame in renderPreview reads 0 dimensions.
@@ -1531,7 +1541,7 @@ document.addEventListener('DOMContentLoaded', () => {
       displayMode: true,
       folderId:    folderId
     };
-    customSnippets.push(snippet);
+    customSnippets.unshift(snippet);
     saveCustomSnippets();
     renderCustomGrid();
   }
@@ -1624,14 +1634,15 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Opens the modal. Pass a snippet object to edit it, or no arg to add.
-  function openModal(snippetToEdit = null) {
+  // prefillCode: optional LaTeX string to pre-populate the code field (used by context menu).
+  function openModal(snippetToEdit = null, prefillCode = null) {
     exitModalFolderCreate();   // reset any in-progress folder create state
     editingSnippetId        = snippetToEdit ? snippetToEdit.id : null;
     modalSessionFolderIds   = [];   // start fresh — track any folders created this session
 
     modalTitle.textContent = snippetToEdit ? 'Edit Snippet' : 'Add Snippet';
     modalName.value        = snippetToEdit ? snippetToEdit.name : '';
-    modalCode.value        = snippetToEdit ? snippetToEdit.code : '';
+    modalCode.value        = snippetToEdit ? snippetToEdit.code : (prefillCode || '');
     modalPreview.innerHTML = '';
     modalPreview.className = 'modal__preview';
 
@@ -1639,8 +1650,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const defaultFolder = snippetToEdit ? snippetToEdit.folderId : activeFolderCustom;
     populateModalFolderSelect(defaultFolder);
 
-    // If editing, show existing preview immediately
-    if (snippetToEdit && snippetToEdit.code) updateModalPreview();
+    // Show preview immediately if there's code to render
+    if (snippetToEdit?.code || prefillCode) updateModalPreview();
 
     modalOverlay.classList.add('modal-overlay--visible');
     modalOverlay.setAttribute('aria-hidden', 'false');
