@@ -118,12 +118,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const onboardTip         = document.getElementById('onboard-tip');
   const onboardTipClose    = document.getElementById('onboard-tip-close');
   // Tab bar onboarding tooltips
-  const folderTip      = document.getElementById('folder-tip');
-  const folderTipClose = document.getElementById('folder-tip-close');
-  const viewTip        = document.getElementById('view-tip');
-  const viewTipClose   = document.getElementById('view-tip-close');
-  const sortTip        = document.getElementById('sort-tip');
-  const sortTipClose   = document.getElementById('sort-tip-close');
+  const folderTip           = document.getElementById('folder-tip');
+  const folderTipClose      = document.getElementById('folder-tip-close');
+  const viewTip             = document.getElementById('view-tip');
+  const viewTipClose        = document.getElementById('view-tip-close');
+  const sortTip             = document.getElementById('sort-tip');
+  const sortTipClose        = document.getElementById('sort-tip-close');
 
 
   // ══════════════════════════════════════════════════════════════
@@ -691,19 +691,19 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function dismissAllTabTips() {
-    if (folderTip.classList.contains('tab-tip--visible')) dismissTabTip(folderTip, folderToggle, 'hasSeenFolderTip');
-    if (viewTip.classList.contains('tab-tip--visible'))   dismissTabTip(viewTip,   viewToggle,   'hasSeenViewTip');
-    if (sortTip.classList.contains('tab-tip--visible'))   dismissTabTip(sortTip,   sortToggle,   'hasSeenSortTip');
+    if (folderTip.classList.contains('tab-tip--visible'))     dismissTabTip(folderTip,     folderToggle, 'hasSeenFolderTip');
+    if (viewTip.classList.contains('tab-tip--visible'))       dismissTabTip(viewTip,       viewToggle,   'hasSeenViewTip');
+    if (sortTip.classList.contains('tab-tip--visible'))       dismissTabTip(sortTip,       sortToggle,   'hasSeenSortTip');
   }
 
-  function showFolderTip() { dismissAllTabTips(); showTabTip(folderTip, folderToggle); }
-  function dismissFolderTip() { dismissTabTip(folderTip, folderToggle, 'hasSeenFolderTip'); }
+  function showFolderTip()     { dismissAllTabTips(); showTabTip(folderTip,     folderToggle); }
+  function dismissFolderTip()  { dismissTabTip(folderTip,     folderToggle, 'hasSeenFolderTip'); }
 
-  function showViewTip() { dismissAllTabTips(); showTabTip(viewTip, viewToggle); }
-  function dismissViewTip() { dismissTabTip(viewTip, viewToggle, 'hasSeenViewTip'); }
+  function showViewTip()       { dismissAllTabTips(); showTabTip(viewTip,       viewToggle); }
+  function dismissViewTip()    { dismissTabTip(viewTip,       viewToggle,   'hasSeenViewTip'); }
 
-  function showSortTip() { dismissAllTabTips(); showTabTip(sortTip, sortToggle); }
-  function dismissSortTip() { dismissTabTip(sortTip, sortToggle, 'hasSeenSortTip'); }
+  function showSortTip()       { dismissAllTabTips(); showTabTip(sortTip,       sortToggle); }
+  function dismissSortTip()    { dismissTabTip(sortTip,       sortToggle,   'hasSeenSortTip'); }
 
   // Close buttons
   folderTipClose.addEventListener('click', (e) => { e.stopPropagation(); dismissFolderTip(); });
@@ -1354,7 +1354,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (folderModalMode === 'new') {
       const folder = { id: Date.now().toString(), name };
       customFolders.push(folder);
-      activeFolderCustom = folder.id;   // auto-select the new folder
+      // Don't auto-navigate — new folder is empty, stay where the user is
     } else {
       const folder = customFolders.find(f => f.id === activeFolderCustom);
       if (folder) folder.name = name;
@@ -1684,6 +1684,13 @@ document.addEventListener('DOMContentLoaded', () => {
     modalSessionFolderIds = [];   // commit — keep all folders created this session
 
     const isNew = !editingSnippetId;
+
+    // If the snippet is being assigned to a folder, navigate to that folder
+    // so the user lands on it and sees their new/edited snippet right away.
+    if (folderId) {
+      activeFolderCustom = folderId;
+    }
+
     if (editingSnippetId) {
       updateSnippet(editingSnippetId, name, code, folderId);
     } else {
@@ -1691,6 +1698,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     closeModal();
     switchTab('custom');
+    if (folderId) updateFolderIndicator();
 
     // Show the folder sidebar tip on the user's first snippet save so they
     // know folders exist and where to find them.
