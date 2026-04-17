@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TexVault</title>
+
+  <!--
+    We load KaTeX's CSS first so that math fonts are available
+    before anything renders. KaTeX uses special fonts for math symbols —
+    without this, you'd see blank boxes instead of math.
+  -->
+  <link rel="stylesheet" href="lib/katex.min.css">
+
+  <!-- Our own styles come after KaTeX so we can override anything if needed -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!--
+    HEADER
+    The top bar with the TexVault logo. "Tex" is plain white,
+    "Vault" gets an accent color via a <span> inside script-generated
+    content — here we write it directly in HTML.
+  -->
+  <header class="header">
+    <img class="header__icon" src="icons/texvaultlogo.svg" alt="" aria-hidden="true">
+    <span class="header__logo">Tex<span class="header__logo-accent">Vault</span></span>
+    <button class="btn-icon header__settings-btn" id="settings-btn" title="Settings" aria-label="Settings">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+      </svg>
+    </button>
+  </header>
+
+  <!--
+    TAB BAR
+    Two buttons that switch between the Templates and Custom panels.
+    data-tab="templates" / data-tab="custom" are custom HTML attributes —
+    they're not built-in, we just made them up. JavaScript reads them
+    to know which panel to show when each tab is clicked.
+  -->
+  <!--
+    TAB BAR
+    Left side: tab buttons. Right side: view toggle + folder toggle icons.
+    justify-content: space-between in CSS separates the two groups.
+  -->
+  <nav class="tabs">
+    <div class="tabs__nav">
+      <button class="tab tab--active" data-tab="custom">Custom</button>
+      <button class="tab" data-tab="templates">Library</button>
+    </div>
+    <!-- Tab bar onboarding tooltips — all anchored to .tabs (position:relative) -->
+    <div class="tab-tip" id="folder-tip" aria-hidden="true">
+      <button class="tab-tip__close" id="folder-tip-close" aria-label="Dismiss tip">&times;</button>
+      <p class="tab-tip__text">Click the <strong>folder icon</strong> to organize your snippets into folders.</p>
+    </div>
+    <div class="tab-tip" id="view-tip" aria-hidden="true">
+      <button class="tab-tip__close" id="view-tip-close" aria-label="Dismiss tip">&times;</button>
+      <p class="tab-tip__text">Try <strong>compact view</strong> to see more snippets at once.</p>
+    </div>
+    <div class="tab-tip" id="sort-tip" aria-hidden="true">
+      <button class="tab-tip__close" id="sort-tip-close" aria-label="Dismiss tip">&times;</button>
+      <p class="tab-tip__text">Click the <strong>sort icon</strong> to sort your snippets A to Z.</p>
+    </div>
+    <div class="tabs__actions">
+      <!-- Sort toggle: A-Z or date-added order (custom tab only) -->
+      <button class="btn-icon" id="sort-toggle" title="Sort A–Z" aria-label="Toggle sort order">
+        <!-- Icon set by JS on init -->
+      </button>
+      <!-- View toggle: switches between normal (2-col) and compact (3-col) view -->
+      <button class="btn-icon" id="view-toggle" title="Toggle compact view" aria-label="Toggle view">
+        <!-- Icon set by JS on init -->
+      </button>
+      <!-- Folder toggle: slides the folder sidebar in/out from the right -->
+      <button class="btn-icon" id="folder-toggle" title="Toggle folders" aria-label="Toggle folders">
+        <svg width="18" height="18" viewBox="0 0 15 15" fill="currentColor">
+          <path d="M1.5 4a1 1 0 011-1H5.8l1.1 1.1a1 1 0 00.7.3H12.5a1 1 0 011 1V11a1 1 0 01-1 1h-10a1 1 0 01-1-1V4z"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!--
+    SEARCH BAR
+    Sits between the tab bar and the card grid. Filters visible cards
+    in real time as the user types — matches on name and LaTeX code.
+    Search state is not persisted (resets on popup close/reopen).
+  -->
+  <div class="search-bar">
+    <div class="search-bar__wrap">
+      <input type="search" id="search-input" class="search-input"
+             placeholder="Search snippets and code..."
+             autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+      <button class="search-clear" id="search-clear" aria-label="Clear search">&times;</button>
+    </div>
+  </div>
+
+  <!--
+    FOLDER INDICATOR
+    Thin bar that appears when a folder filter is active.
+    Shows the current folder name; clicking × clears the filter.
+    Hidden (takes no space) when viewing "All".
+  -->
+  <div class="folder-indicator" id="folder-indicator" aria-hidden="true">
+    <svg class="folder-indicator__icon" width="11" height="11" viewBox="0 0 15 15" fill="currentColor" aria-hidden="true">
+      <path d="M1.5 4a1 1 0 011-1H5.8l1.1 1.1a1 1 0 00.7.3H12.5a1 1 0 011 1V11a1 1 0 01-1 1h-10a1 1 0 01-1-1V4z"/>
+    </svg>
+    <span class="folder-indicator__name"></span>
+    <button class="folder-indicator__clear" id="folder-indicator-clear" aria-label="Clear folder filter">&times;</button>
+  </div>
+
+  <!--
+    CONTENT AREA
+    Wraps the panels + the folder sidebar so the sidebar can slide in
+    from the right as an absolute overlay within this container.
+  -->
+  <div class="content-area">
+
+    <main class="panels" id="panels-main">
+
+      <!-- TEMPLATES PANEL: cards are injected here by script.js -->
+      <section class="panel" id="panel-templates">
+        <div class="card-grid" id="templates-grid"></div>
+      </section>
+
+      <!-- CUSTOM PANEL: cards + the "+" add card are injected here by script.js -->
+      <section class="panel panel--active" id="panel-custom">
+        <div class="card-grid" id="custom-grid"></div>
+      </section>
+
+    </main>
+
+    <!--
+      FOLDER SIDEBAR
+      Slides in from the right. Contains folder items for the active tab.
+      Custom tab shows user-created folders + a "+ New Folder" button.
+      Templates tab shows read-only predefined category folders.
+    -->
+    <aside class="folder-sidebar" id="folder-sidebar" aria-hidden="true">
+      <div class="folder-sidebar__header">Folders</div>
+      <div class="folder-list" id="folder-list"></div>
+      <button class="folder-edit-btn" id="folder-edit-btn" disabled>Edit Folder</button>
+      <button class="folder-new-btn" id="folder-new-btn">+ New Folder</button>
+    </aside>
+
+  </div>
+
+  <!--
+    TOAST NOTIFICATION
+    A small pill that briefly appears at the bottom saying "Copied!".
+    It's always in the DOM but invisible (opacity:0). JavaScript adds
+    the class "toast--visible" to show it, then removes it after ~1.8s.
+  -->
+  <div class="toast" id="toast" aria-hidden="true">Copied!</div>
+
+  <!-- Screen reader announcement for clipboard copies (visually hidden) -->
+  <div id="sr-announce" aria-live="polite" aria-atomic="true"
+       style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;"></div>
+
+  <!--
+    ADD SNIPPET MODAL
+    A full-popup overlay that appears when the user clicks the "+" card.
+    Like the toast, it's always in the DOM. aria-hidden tells screen readers
+    to ignore it when it's not visible.
+  -->
+  <div class="modal-overlay" id="modal-overlay" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+
+      <h2 class="modal__title" id="modal-title">Add Snippet</h2>
+
+      <!-- Name field -->
+      <label class="modal__label" for="modal-name">Name</label>
+      <input class="modal__input" id="modal-name" type="text"
+             placeholder="e.g. My Matrix" maxlength="40" autocomplete="off">
+
+      <!-- Code field -->
+      <label class="modal__label" for="modal-code">LaTeX Code</label>
+      <textarea class="modal__textarea" id="modal-code"
+                placeholder="Paste your LaTeX here..." rows="5"
+                spellcheck="false" autocorrect="off" autocapitalize="off"></textarea>
+
+      <!-- Folder assignment -->
+      <label class="modal__label" for="modal-folder">Folder</label>
+      <div class="modal__folder-row">
+        <select class="modal__select" id="modal-folder">
+          <option value="">— None —</option>
+        </select>
+        <!-- Shown in place of the select when creating a new folder inline -->
+        <input class="modal__folder-input modal__folder-create-input" id="modal-folder-create"
+               type="text" maxlength="30" placeholder="Folder name...">
+        <button class="modal__folder-new" id="modal-folder-new" type="button">+ New</button>
+      </div>
+
+      <!-- Duplicate warning — shown inline when code matches an existing snippet -->
+      <div class="modal__dup-warn" id="modal-dup-warn" aria-live="polite"></div>
+
+      <!-- Live preview: updates as the user types in the textarea -->
+      <div class="modal__preview-label">Live Preview</div>
+      <div class="modal__preview" id="modal-preview"></div>
+
+      <!-- Action buttons -->
+      <div class="modal__actions">
+        <button class="btn btn--secondary" id="modal-cancel">Cancel</button>
+        <button class="btn btn--primary" id="modal-save">Save</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!--
+    FOLDER MANAGEMENT MODAL
+    Shared popup for both "New Folder" and "Edit Folder" flows.
+    Mode determines title, button labels, and whether Delete is shown.
+    aria-hidden toggled by JS when opening/closing.
+  -->
+  <div class="folder-modal-overlay" id="folder-modal-overlay" aria-hidden="true">
+    <div class="folder-modal" role="dialog" aria-modal="true" aria-labelledby="folder-modal-title">
+      <h3 class="folder-modal__title" id="folder-modal-title">New Folder</h3>
+      <input class="folder-modal__input" id="folder-modal-name"
+             type="text" maxlength="30" placeholder="Folder name..." autocomplete="off">
+      <div class="folder-modal__actions">
+        <!-- Delete only shown in Edit mode -->
+        <button class="folder-modal__delete" id="folder-modal-delete">Delete</button>
+        <div class="folder-modal__main-actions">
+          <button class="btn btn--secondary" id="folder-modal-cancel">Cancel</button>
+          <button class="btn btn--primary" id="folder-modal-save">Create</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--
+    SETTINGS PANEL
+    Slides up from the bottom to cover the full popup.
+    aria-hidden toggled by JS when opening/closing.
+  -->
+  <div class="settings-overlay" id="settings-overlay" aria-hidden="true">
+    <div class="settings-panel" role="dialog" aria-modal="true" aria-labelledby="settings-title">
+
+      <div class="settings-header">
+        <h2 class="settings-title" id="settings-title">Settings</h2>
+        <button class="btn-icon settings-close" id="settings-close" aria-label="Close settings">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <line x1="1" y1="1" x2="12" y2="12"/><line x1="12" y1="1" x2="1" y2="12"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="settings-body">
+
+        <div class="settings-section">
+          <div class="settings-section__title">Appearance</div>
+          <div class="settings-row">
+            <div class="settings-row__info">
+              <span class="settings-row__label">Theme</span>
+            </div>
+            <div class="theme-picker" id="theme-picker">
+              <button class="theme-picker__btn theme-picker__btn--active" data-theme-val="system">System</button>
+              <button class="theme-picker__btn" data-theme-val="light">Light</button>
+              <button class="theme-picker__btn" data-theme-val="dark">Dark</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <div class="settings-section__title">Behavior</div>
+          <label class="settings-row" for="setting-autopaste">
+            <div class="settings-row__info">
+              <span class="settings-row__label">Auto-paste to Overleaf</span>
+              <span class="settings-row__desc">Pastes directly at your cursor when Overleaf is the active tab</span>
+            </div>
+            <span class="toggle"><input type="checkbox" id="setting-autopaste"><span class="toggle__track"></span></span>
+          </label>
+        </div>
+
+        <div class="settings-section">
+          <div class="settings-section__title">Data</div>
+          <p class="settings-section__desc">Synced to your Google account. Export to back up or transfer your snippets.</p>
+          <div class="settings-row settings-row--buttons">
+            <button class="btn btn--secondary settings-data-btn" id="settings-export">↓ Export</button>
+            <button class="btn btn--secondary settings-data-btn" id="settings-import-btn">↑ Import</button>
+            <input type="file" id="settings-import-file" accept=".json" style="display:none">
+          </div>
+          <div class="settings-import-msg" id="settings-import-msg"></div>
+        </div>
+
+      </div>
+
+      <div class="settings-footer">
+        <span class="settings-footer__version">TexVault v1.0</span>
+        <span class="settings-footer__shortcut">Open with <kbd>Alt+T</kbd> / <kbd>⌥T</kbd></span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Floating action button — fixed bottom-right, Custom tab only -->
+  <button class="fab" id="fab-new" aria-label="New snippet" aria-hidden="true">+</button>
+
+  <!-- First-launch onboarding tip — sits above the FAB, arrow points down -->
+  <div class="onboard-tip" id="onboard-tip" aria-hidden="true">
+    <button class="onboard-tip__close" id="onboard-tip-close" aria-label="Dismiss tip">&times;</button>
+    <p class="onboard-tip__text">Start here — click the <strong>+</strong> button to add your first snippet.</p>
+  </div>
+
+  <!--
+    EXPORT CONFIRM MODAL
+    Small centered popup confirming the JSON download.
+  -->
+  <div class="export-confirm-overlay" id="export-confirm-overlay" aria-hidden="true">
+    <div class="export-confirm-modal" role="dialog" aria-modal="true" aria-labelledby="export-confirm-title">
+      <h3 class="export-confirm-modal__title" id="export-confirm-title">Export Snippets</h3>
+      <p class="export-confirm-modal__text">You are about to download a <strong>.json</strong> file containing all your custom snippets and folders. You can use this file to back up or transfer your data.</p>
+      <div class="export-confirm-modal__actions">
+        <button class="btn btn--secondary" id="export-confirm-cancel">Cancel</button>
+        <button class="btn btn--primary" id="export-confirm-ok">↓ Download</button>
+      </div>
+    </div>
+  </div>
+
+  <!--
+    SCRIPTS — order matters:
+    1. templates.js  — defines window.TEMPLATES (must exist before script.js runs)
+    2. katex.min.js  — defines window.katex (must exist before script.js uses it)
+    3. script.js     — our app logic (reads both of the above)
+  -->
+  <script src="templates.js"></script>
+  <script src="lib/katex.min.js"></script>
+  <script src="script.js"></script>
+
+</body>
+</html>
