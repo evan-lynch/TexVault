@@ -33,7 +33,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // App settings — persisted in storage under key 'appSettings'
   let appSettings = {
-    autoPaste:         false,    // auto-paste to Overleaf when it's the active tab
     theme:             'system', // 'system' | 'light' | 'dark'
     hasSeenTip:        false,    // true once the first-launch onboarding tooltip has been seen
     hasSeenFolderTip:  false,    // true once the folder sidebar tip has been seen
@@ -104,7 +103,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const settingsBtn        = document.getElementById('settings-btn');
   const settingsOverlay    = document.getElementById('settings-overlay');
   const settingsClose      = document.getElementById('settings-close');
-  const settingAutopaste   = document.getElementById('setting-autopaste');
   const settingsExport       = document.getElementById('settings-export');
   const settingsImportBtn    = document.getElementById('settings-import-btn');
   const exportConfirmOverlay = document.getElementById('export-confirm-overlay');
@@ -356,12 +354,6 @@ document.addEventListener('DOMContentLoaded', () => {
     applyTheme();
   });
 
-  // Auto-paste toggle
-  settingAutopaste.addEventListener('change', () => {
-    appSettings.autoPaste = settingAutopaste.checked;
-    saveAppSettings();
-  });
-
   // ══════════════════════════════════════════════════════════════
   // EXPORT / IMPORT
   // ══════════════════════════════════════════════════════════════
@@ -434,28 +426,6 @@ document.addEventListener('DOMContentLoaded', () => {
       settingsImportMsg.textContent = '';
       settingsImportMsg.className   = 'settings-import-msg';
     }, 4000);
-  }
-
-
-  // ══════════════════════════════════════════════════════════════
-  // AUTO-PASTE (Overleaf)
-  // Tries to insert text directly into the focused Overleaf tab.
-  // Falls back to "Copied!" toast if Overleaf isn't found.
-  // ══════════════════════════════════════════════════════════════
-
-  function tryAutoPaste(text) {
-    chrome.tabs.query({ active: true }, (tabs) => {
-      const overleaf = tabs.find(t => t.url && t.url.includes('overleaf.com'));
-      if (!overleaf) { showToast('Copied!'); return; }
-
-      chrome.tabs.sendMessage(overleaf.id, { type: 'TEXVAULT_PASTE', text }, (resp) => {
-        if (chrome.runtime.lastError || !resp || !resp.ok) {
-          showToast('Copied!');   // paste failed, but clipboard still has it
-        } else {
-          showToast('Pasted!');
-        }
-      });
-    });
   }
 
 
@@ -1452,7 +1422,6 @@ document.addEventListener('DOMContentLoaded', () => {
         appSettings = { ...appSettings, ...result.appSettings };
       }
       // Apply restored settings to the settings panel controls
-      settingAutopaste.checked = appSettings.autoPaste;
       applyTheme();
 
       // Restore persisted UI state if available
@@ -1607,12 +1576,7 @@ document.addEventListener('DOMContentLoaded', () => {
       document.body.removeChild(ta);
     });
 
-    // Auto-paste or plain toast
-    if (appSettings.autoPaste) {
-      tryAutoPaste(text);
-    } else {
-      showToast('Copied!');
-    }
+    showToast('Copied!');
   }
 
   let toastTimer = null;

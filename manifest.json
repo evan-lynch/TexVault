@@ -40,19 +40,6 @@
   "permissions": [
     "storage",
     "clipboardWrite",
-    "tabs",
     "contextMenus"
-  ],
-
-  "host_permissions": [
-    "https://www.overleaf.com/*"
-  ],
-
-  "content_scripts": [
-    {
-      "matches": ["https://www.overleaf.com/*"],
-      "js": ["content.js"],
-      "run_at": "document_idle"
-    }
   ]
 }
