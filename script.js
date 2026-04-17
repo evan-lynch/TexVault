@@ -1720,11 +1720,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const isNew = !editingSnippetId;
 
-    // If the snippet is being assigned to a folder, navigate to that folder
-    // so the user lands on it and sees their new/edited snippet right away.
-    if (folderId) {
-      activeFolderCustom = folderId;
-    }
+    // Navigate to the snippet's folder after saving so it's always visible.
+    // null (None) navigates to All; a folder id navigates to that folder.
+    activeFolderCustom = folderId;
 
     if (editingSnippetId) {
       updateSnippet(editingSnippetId, name, code, folderId);
@@ -1733,7 +1731,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     closeModal();
     switchTab('custom');
-    if (folderId) updateFolderIndicator();
+    updateFolderIndicator();
 
     // Show the folder sidebar tip on the user's first snippet save so they
     // know folders exist and where to find them.
