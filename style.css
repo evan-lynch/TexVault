@@ -1758,6 +1758,10 @@ body {
   background: rgba(255, 255, 255, 0.08);
 }
 
+[data-theme="dark"] .toggle__track {
+  background: rgba(255, 255, 255, 0.18);
+}
+
 [data-theme="dark"] .theme-picker__btn--active {
   background:  rgba(255, 255, 255, 0.15);
   color:       var(--text-primary);
