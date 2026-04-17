@@ -1479,18 +1479,17 @@ body {
 .settings-import-msg--err { color: var(--danger); }
 
 .settings-footer {
-  display:         flex;
-  align-items:     center;
-  justify-content: space-between;
-  padding:         13px 20px;
-  border-top:      1px solid var(--border-subtle);
-  flex-shrink:     0;
+  display:        flex;
+  align-items:    center;
+  padding:        10px 20px;
+  flex-shrink:    0;
 }
 
 .settings-footer__version {
-  font-size:   12px;
-  font-weight: 500;
+  font-size:   11px;
+  font-weight: 400;
   color:       var(--text-secondary);
+  opacity:     0.45;
 }
 
 .settings-footer__shortcut {
@@ -1498,15 +1497,6 @@ body {
   color:     var(--text-secondary);
 }
 
-kbd {
-  font-family:   var(--font-mono);
-  font-size:     11px;
-  background:    rgba(0, 0, 0, 0.07);
-  border:        1px solid var(--border-subtle);
-  border-radius: 4px;
-  padding:       2px 6px;
-  color:         var(--text-primary);
-}
 
 
 /* ============================================================
@@ -1766,10 +1756,6 @@ kbd {
 }
 [data-theme="dark"] .theme-picker {
   background: rgba(255, 255, 255, 0.08);
-}
-[data-theme="dark"] kbd {
-  background:   rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.15);
 }
 
 [data-theme="dark"] .theme-picker__btn--active {
