@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      width: 1400px;
+      height: 560px;
+      overflow: hidden;
+    }
+    body {
+      background: linear-gradient(120deg, #d1fae5 0%, #ecfdf5 45%, #f8fffc 75%, #ffffff 100%);
+      position: relative;
+    }
+
+    /* Large blurred orbs for depth */
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: 0.55;
+    }
+    .orb1 {
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, #a7f3d0, transparent 70%);
+      top: -200px; left: -100px;
+    }
+    .orb2 {
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, #ffffff, transparent 70%);
+      bottom: -180px; right: 60px;
+      opacity: 0.7;
+    }
+    .orb3 {
+      width: 380px; height: 380px;
+      background: radial-gradient(circle, #ffffff, transparent 70%);
+      top: 40px; left: 55%;
+      opacity: 0.8;
+    }
+
+    /* Subtle grid lines */
+    .grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(5,150,105,0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(5,150,105,0.08) 1px, transparent 1px);
+      background-size: 56px 56px;
+    }
+
+    /* Floating math formulas as decorative text */
+    .formula {
+      position: absolute;
+      font-family: Georgia, 'Times New Roman', serif;
+      color: rgba(5, 150, 105, 0.18);
+      pointer-events: none;
+      user-select: none;
+      font-style: italic;
+    }
+    .f1  { font-size: 38px; top:  30px; left:  60px;  transform: rotate(-8deg); }
+    .f2  { font-size: 28px; top: 200px; left:  30px;  transform: rotate(5deg);  }
+    .f3  { font-size: 44px; top:  60px; left: 340px;  transform: rotate(3deg);  }
+    .f4  { font-size: 32px; top: 340px; left: 180px;  transform: rotate(-4deg); }
+    .f5  { font-size: 50px; top:  20px; right: 300px; transform: rotate(6deg);  }
+    .f6  { font-size: 30px; top: 280px; right: 160px; transform: rotate(-5deg); }
+    .f7  { font-size: 36px; bottom: 40px; left: 500px; transform: rotate(4deg); }
+    .f8  { font-size: 28px; bottom: 60px; right: 80px; transform: rotate(-6deg); }
+    .f9  { font-size: 42px; top: 160px; right: 500px; transform: rotate(-3deg); }
+    .f10 { font-size: 24px; top: 440px; left: 900px;  transform: rotate(7deg);  }
+
+    /* Soft vignette around edges */
+    .vignette {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center,
+        transparent 40%,
+        rgba(5, 150, 105, 0.12) 100%);
+    }
+  </style>
+</head>
+<body>
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+  <div class="grid"></div>
+
+  <!-- Decorative math formulas -->
+  <div class="formula f1">∫<sub>a</sub><sup>b</sup> f(x) dx</div>
+  <div class="formula f2">∑<sub>n=1</sub><sup>∞</sup> aₙ</div>
+  <div class="formula f3">e<sup>iπ</sup> + 1 = 0</div>
+  <div class="formula f4">∂f/∂x</div>
+  <div class="formula f5">P(A|B) = P(B|A)·P(A) / P(B)</div>
+  <div class="formula f6">Av = λv</div>
+  <div class="formula f7">lim<sub>x→∞</sub> f(x)</div>
+  <div class="formula f8">∇ × F</div>
+  <div class="formula f9">√(x² + y²)</div>
+  <div class="formula f10">dy/dx = dy/du · du/dx</div>
+
+  <div class="vignette"></div>
+</body>
+</html>

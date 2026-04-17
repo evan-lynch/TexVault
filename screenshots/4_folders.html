@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1280">
+  <title>TexVault — Folders</title>
+  <link rel="stylesheet" href="../lib/katex.min.css">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="_shared.css">
+  <style>
+    /* In screenshots, fixed positioning won't work inside popup-shell, so override */
+    .popup-shell .folder-sidebar {
+      position: absolute !important;
+      top: 0 !important;
+      bottom: 0 !important;
+      right: 0 !important;
+      transform: translateX(0) !important;
+    }
+    .popup-shell .folder-indicator {
+      position: relative !important;
+    }
+  </style>
+</head>
+<body>
+<div class="popup-shell">
+
+  <header class="header">
+    <img class="header__icon" src="../icons/texvaultlogo.svg" alt="" aria-hidden="true">
+    <span class="header__logo">Tex<span class="header__logo-accent">Vault</span></span>
+    <button class="btn-icon header__settings-btn">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+    </button>
+  </header>
+
+  <nav class="tabs">
+    <div class="tabs__nav">
+      <button class="tab tab--active" data-tab="custom">Custom</button>
+      <button class="tab" data-tab="templates">Library</button>
+    </div>
+    <div class="tabs__actions">
+      <button class="btn-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><rect x="1" y="2" width="12" height="2.5" rx="1.25"/><rect x="1" y="5.75" width="8.5" height="2.5" rx="1.25"/><rect x="1" y="9.5" width="5" height="2.5" rx="1.25"/></svg></button>
+      <button class="btn-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><rect x="0" y="0" width="6" height="6" rx="1"/><rect x="8" y="0" width="6" height="6" rx="1"/><rect x="0" y="8" width="6" height="6" rx="1"/><rect x="8" y="8" width="6" height="6" rx="1"/></svg></button>
+      <button class="btn-icon btn-icon--active"><svg width="18" height="18" viewBox="0 0 15 15" fill="currentColor"><path d="M1.5 4a1 1 0 011-1H5.8l1.1 1.1a1 1 0 00.7.3H12.5a1 1 0 011 1V11a1 1 0 01-1 1h-10a1 1 0 01-1-1V4z"/></svg></button>
+    </div>
+  </nav>
+
+  <div class="search-bar">
+    <div class="search-bar__wrap">
+      <input type="search" class="search-input" placeholder="Search snippets and code..." readonly>
+    </div>
+  </div>
+
+  <!-- Folder indicator bar -->
+  <div class="folder-indicator" style="display:flex; align-items:center; padding:5px 12px; background:#f0fdf4; border-bottom:1px solid rgba(0,0,0,0.08); font-size:11.5px; font-weight:500; color:var(--accent); gap:5px; flex-shrink:0;">
+    <svg width="11" height="11" viewBox="0 0 15 15" fill="currentColor" aria-hidden="true"><path d="M1.5 4a1 1 0 011-1H5.8l1.1 1.1a1 1 0 00.7.3H12.5a1 1 0 011 1V11a1 1 0 01-1 1h-10a1 1 0 01-1-1V4z"/></svg>
+    <span>Calculus</span>
+    <button style="margin-left:auto; background:none; border:none; color:var(--text-secondary); font-size:14px; cursor:pointer; padding:0 2px;">&times;</button>
+  </div>
+
+  <div class="content-area" style="position:relative;">
+    <main class="panels">
+      <section class="panel panel--active">
+        <div class="card-grid" id="grid">
+          <div class="card" data-f="\int_a^b f(x)\,dx" data-n="Integral"></div>
+          <div class="card" data-f="\frac{d}{dx}f(x)" data-n="Derivative"></div>
+          <div class="card" data-f="\lim_{x \to \infty} f(x)" data-n="Limit"></div>
+          <div class="card" data-f="\frac{\partial f}{\partial x}" data-n="Partial Deriv."></div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Folder sidebar — open -->
+    <aside class="folder-sidebar folder-sidebar--open" style="position:absolute; top:0; right:0; bottom:0; transform:translateX(0); width:168px; background:#f7fef9; border-left:1px solid rgba(0,0,0,0.08); border-top:none; display:flex; flex-direction:column; z-index:10; box-shadow:-4px 0 16px rgba(0,0,0,0.06);">
+      <div class="folder-sidebar__header">Folders</div>
+      <div class="folder-list">
+        <div class="folder-item">
+          <span class="folder-item__name">All</span>
+          <span class="folder-item__count">10</span>
+        </div>
+        <div class="folder-item folder-item--active">
+          <span class="folder-item__name">Calculus</span>
+          <span class="folder-item__count">4</span>
+        </div>
+        <div class="folder-item">
+          <span class="folder-item__name">Linear Algebra</span>
+          <span class="folder-item__count">3</span>
+        </div>
+        <div class="folder-item">
+          <span class="folder-item__name">Statistics</span>
+          <span class="folder-item__count">2</span>
+        </div>
+        <div class="folder-item">
+          <span class="folder-item__name">Homework</span>
+          <span class="folder-item__count">1</span>
+        </div>
+      </div>
+      <button class="folder-edit-btn">Edit Folder</button>
+      <button class="folder-new-btn">+ New Folder</button>
+    </aside>
+  </div>
+
+</div>
+
+<script src="../lib/katex.min.js"></script>
+<script>
+document.querySelectorAll('.card[data-f]').forEach(card => {
+  const preview = document.createElement('div');
+  preview.className = 'card__preview';
+  try {
+    preview.innerHTML = katex.renderToString(card.dataset.f, { displayMode: true, throwOnError: true, strict: false });
+  } catch(e) {
+    preview.classList.add('card__preview--code');
+    preview.textContent = card.dataset.f;
+  }
+  const name = document.createElement('div');
+  name.className = 'card__name';
+  name.textContent = card.dataset.n;
+  card.appendChild(preview);
+  card.appendChild(name);
+  delete card.dataset.f;
+  delete card.dataset.n;
+});
+
+function scaleKatexToFit(el) {
+  const k = el.querySelector('.katex');
+  if (!k) return;
+  k.style.transform = 'none';
+  const cw = el.clientWidth, ch = el.clientHeight;
+  if (!cw || !ch) return;
+  const kw = k.scrollWidth, kh = k.scrollHeight;
+  if (!kw || !kh) return;
+  const scale = Math.min((cw - 10) / kw, (ch - 10) / kh, 1.5);
+  if (scale > 1.08 || scale < 0.95) {
+    k.style.transformOrigin = 'center center';
+    k.style.transform = `scale(${Math.max(scale, 0.25)})`;
+  }
+}
+setTimeout(() => document.querySelectorAll('.card__preview').forEach(scaleKatexToFit), 120);
+</script>
+</body>
+</html>

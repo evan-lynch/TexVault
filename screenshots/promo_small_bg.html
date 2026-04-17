@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      width: 440px;
+      height: 280px;
+      overflow: hidden;
+    }
+    body {
+      background: linear-gradient(120deg, #d1fae5 0%, #ecfdf5 45%, #f8fffc 75%, #ffffff 100%);
+      position: relative;
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(50px);
+    }
+    .orb1 {
+      width: 280px; height: 280px;
+      background: radial-gradient(circle, #a7f3d0, transparent 70%);
+      top: -100px; left: -60px;
+      opacity: 0.55;
+    }
+    .orb2 {
+      width: 220px; height: 220px;
+      background: radial-gradient(circle, #ffffff, transparent 70%);
+      bottom: -80px; right: 20px;
+      opacity: 0.7;
+    }
+    .orb3 {
+      width: 180px; height: 180px;
+      background: radial-gradient(circle, #ffffff, transparent 70%);
+      top: 20px; left: 55%;
+      opacity: 0.8;
+    }
+
+    .grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(5,150,105,0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(5,150,105,0.08) 1px, transparent 1px);
+      background-size: 36px 36px;
+    }
+
+    .formula {
+      position: absolute;
+      font-family: Georgia, 'Times New Roman', serif;
+      color: rgba(5, 150, 105, 0.18);
+      pointer-events: none;
+      user-select: none;
+      font-style: italic;
+    }
+    .f1 { font-size: 16px; top:  14px; left:  24px;  transform: rotate(-8deg); }
+    .f2 { font-size: 13px; top:  90px; left:  12px;  transform: rotate(5deg);  }
+    .f3 { font-size: 20px; top:  22px; left: 150px;  transform: rotate(3deg);  }
+    .f4 { font-size: 14px; top: 170px; left:  80px;  transform: rotate(-4deg); }
+    .f5 { font-size: 18px; top:  10px; right: 30px;  transform: rotate(6deg);  }
+    .f6 { font-size: 13px; top: 140px; right: 50px;  transform: rotate(-5deg); }
+    .f7 { font-size: 15px; bottom: 20px; left: 200px; transform: rotate(4deg); }
+    .f8 { font-size: 12px; bottom: 30px; right: 24px; transform: rotate(-6deg); }
+
+    .vignette {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center,
+        transparent 40%,
+        rgba(5, 150, 105, 0.08) 100%);
+    }
+  </style>
+</head>
+<body>
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+  <div class="grid"></div>
+
+  <div class="formula f1">∫<sub>a</sub><sup>b</sup> f(x) dx</div>
+  <div class="formula f2">∑ aₙ</div>
+  <div class="formula f3">e<sup>iπ</sup> + 1 = 0</div>
+  <div class="formula f4">∂f/∂x</div>
+  <div class="formula f5">P(A|B) = P(B|A)·P(A)/P(B)</div>
+  <div class="formula f6">Av = λv</div>
+  <div class="formula f7">lim<sub>x→∞</sub> f(x)</div>
+  <div class="formula f8">∇ × F</div>
+
+  <div class="vignette"></div>
+</body>
+</html>

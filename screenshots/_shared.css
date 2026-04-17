@@ -1,0 +1,44 @@
+/* Shared overrides for screenshot slides */
+html {
+  overflow: visible !important;
+  background: linear-gradient(145deg, #6ee7b7 0%, #34d399 55%, #059669 100%) !important;
+}
+body {
+  width: 1280px !important;
+  height: 800px !important;
+  overflow: visible !important;
+  background: linear-gradient(145deg, #6ee7b7 0%, #34d399 55%, #059669 100%) !important;
+  border: none !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+.popup-shell {
+  position: relative;
+  width: 380px;
+  height: 560px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border: 1px solid rgba(5, 150, 105, 0.28);
+  border-radius: 10px;
+  box-shadow: 0 28px 90px rgba(0,0,0,0.28), 0 4px 28px rgba(0,0,0,0.14);
+  font-family: 'Outfit', system-ui, sans-serif;
+  color: #0a1f0f;
+  /* Scale up for high-res screenshot — 380×560 layout, visually ~513×756 */
+  transform: scale(1.35);
+  transform-origin: center center;
+}
+/* FAB must be absolute inside popup-shell since fixed won't anchor to it */
+.popup-shell .fab {
+  position: absolute !important;
+  bottom: 22px !important;
+  right: 20px !important;
+}
+/* Onboard tip: fixed -> absolute */
+.popup-shell .onboard-tip {
+  position: absolute !important;
+  bottom: 86px !important;
+  right: 16px !important;
+}
