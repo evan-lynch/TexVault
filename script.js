@@ -114,6 +114,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const settingsImportMsg  = document.getElementById('settings-import-msg');
   // Duplicate warning in snippet modal
   const modalDupWarn       = document.getElementById('modal-dup-warn');
+  // Card name tooltip (custom — shown when name is truncated)
+  const nameTooltip        = document.getElementById('name-tooltip');
   // First-launch onboarding tooltip
   const onboardTip         = document.getElementById('onboard-tip');
   const onboardTipClose    = document.getElementById('onboard-tip-close');
@@ -760,26 +762,32 @@ document.addEventListener('DOMContentLoaded', () => {
   // unknown commands so the catch block can handle them cleanly.
   // ══════════════════════════════════════════════════════════════
 
+  // Returns the first few non-empty lines of code for use in card previews.
+  // Avoids blank-looking cards when a snippet contains a large document.
+  function previewLines(code) {
+    return code.split('\n').filter(l => l.trim()).slice(0, 5).join('\n');
+  }
+
   function renderPreview(template, containerEl) {
     const code = template.previewCode || template.code;
 
     if (template.type === 'text') {
       containerEl.classList.add('card__preview--code');
-      containerEl.textContent = code;
+      containerEl.textContent = previewLines(code);
       return;
     }
 
     // Guard: if KaTeX bundle didn't load, fall back to monospace immediately
     if (typeof window.katex === 'undefined') {
       containerEl.classList.add('card__preview--code');
-      containerEl.textContent = code;
+      containerEl.textContent = previewLines(code);
       return;
     }
 
     try {
       containerEl.innerHTML = katex.renderToString(code, {
         displayMode:  template.displayMode,
-        throwOnError: false,   // let KaTeX handle parse errors internally
+        throwOnError: true,   // throw so the catch block can show code fallback
         strict:       false
       });
       // Scale the rendered math to fill the card preview box.
@@ -789,7 +797,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     } catch (err) {
       containerEl.classList.add('card__preview--code');
-      containerEl.textContent = code;
+      containerEl.textContent = previewLines(code);
     }
   }
 
@@ -934,6 +942,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const name = document.createElement('div');
     name.className = 'card__name';
     name.textContent = snippet.name;
+
+    let tooltipTimer = null;
+    name.addEventListener('mouseenter', () => {
+      if (name.scrollWidth <= name.clientWidth) return;
+      tooltipTimer = setTimeout(() => {
+        const rect = name.getBoundingClientRect();
+        nameTooltip.textContent = snippet.name;
+        nameTooltip.style.left = `${rect.left + rect.width / 2}px`;
+        nameTooltip.style.top  = `${rect.top}px`;
+        nameTooltip.classList.add('name-tooltip--visible');
+      }, 600);
+    });
+    name.addEventListener('mouseleave', () => {
+      clearTimeout(tooltipTimer);
+      nameTooltip.classList.remove('name-tooltip--visible');
+    });
 
     renderPreview(snippet, preview);
     card.appendChild(preview);
