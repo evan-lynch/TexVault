@@ -206,10 +206,13 @@
       background: #f0fdf4;
       border-bottom: 1px solid rgba(5,150,105,0.10);
     }
-    .mock-logo { display: flex; align-items: center; gap: 6px; }
-    .mock-logo-dot { width: 22px; height: 22px; background: #10b981; border-radius: 50%; }
-    .mock-logo-text { font-family: 'Fredoka', sans-serif; font-size: 15px; font-weight: 600; color: #064e3b; }
-    .mock-logo-text span { color: #10b981; }
+    .mock-logo { display: flex; align-items: center; gap: 5px; }
+    .mock-logo-text {
+      font-family: 'Fredoka', sans-serif; font-size: 15px; font-weight: 600;
+      display: flex; align-items: baseline; gap: 0; white-space: nowrap;
+    }
+    .mock-tex   { color: #064e3b; }
+    .mock-vault { color: #10b981; }
     .mock-gear { width: 16px; height: 16px; opacity: 0.35; }
 
     /* Mockup tabs */
@@ -226,7 +229,7 @@
       padding: 4px 14px; border-radius: 99px;
     }
     .mock-tab.active { background: #059669; color: #fff; font-weight: 600; }
-    .mock-icons { display: flex; gap: 3px; }
+    .mock-icons { display: flex; gap: 7px; align-items: center; }
     .mock-icon-dot { width: 18px; height: 18px; background: rgba(5,150,105,0.12); border-radius: 4px; }
 
     /* Mockup search */
@@ -261,11 +264,11 @@
     }
     .mock-card-preview {
       flex: 1; width: 100%;
-      background: linear-gradient(135deg, rgba(5,150,105,0.06), rgba(5,150,105,0.03));
+      background: transparent;
       border-radius: 6px;
       display: flex; align-items: center; justify-content: center;
       font-family: 'Georgia', serif; font-style: italic;
-      font-size: 13px; color: #047857;
+      font-size: 17px; color: #047857;
     }
     .mock-card-name {
       font-size: 9px; color: #4a7a58; font-weight: 500;
@@ -339,8 +342,12 @@
       padding: 32px 5%; display: flex; align-items: center; justify-content: space-between;
       flex-wrap: wrap; gap: 12px; border-top: 1px solid var(--border);
     }
-    .footer-logo { font-family: 'Fredoka', sans-serif; font-size: 18px; font-weight: 600; color: #064e3b; text-decoration: none; }
-    .footer-logo span { color: #10b981; }
+    .footer-logo {
+      font-family: 'Fredoka', sans-serif; font-size: 18px; font-weight: 600;
+      text-decoration: none; display: flex; align-items: baseline; gap: 0;
+    }
+    .footer-tex   { color: #064e3b; }
+    .footer-vault { color: #10b981; }
     .footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
     .footer-links a { font-size: 13px; color: var(--muted); text-decoration: none; transition: color 150ms ease; }
     .footer-links a:hover { color: var(--accent); }
@@ -418,7 +425,7 @@
       <div class="mock-header">
         <div class="mock-logo">
           <img src="texvaultlogo.svg" alt="" style="width:22px;height:22px;flex-shrink:0;">
-          <span class="mock-logo-text">Tex<span>Vault</span></span>
+          <span class="mock-logo-text"><span class="mock-tex">Tex</span><span class="mock-vault">Vault</span></span>
         </div>
         <svg class="mock-gear" viewBox="0 0 24 24" fill="#4a7a58"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
       </div>
@@ -541,7 +548,7 @@
 
 <!-- FOOTER -->
 <footer>
-  <a class="footer-logo" href="#">Tex<span>Vault</span></a>
+  <a class="footer-logo" href="#"><span class="footer-tex">Tex</span><span class="footer-vault">Vault</span></a>
   <div class="footer-links">
     <a href="https://github.com/evan-lynch/TexVault" target="_blank" rel="noopener">GitHub</a>
     <a href="privacy.html">Privacy Policy</a>
