@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Privacy Policy — TexVault</title>
+  <link rel="icon" type="image/svg+xml" href="texvaultlogo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Fredoka:wght@600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Outfit', system-ui, sans-serif;
+      color: #0a1f0f;
+      background: #fff;
+      line-height: 1.7;
+    }
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5%;
+      height: 60px;
+      border-bottom: 1px solid rgba(5,150,105,0.15);
+    }
+    .nav-logo {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: #064e3b;
+      text-decoration: none;
+    }
+    .nav-logo span { color: #10b981; }
+    .back-link {
+      font-size: 14px;
+      color: #059669;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .back-link:hover { text-decoration: underline; }
+    main {
+      max-width: 720px;
+      margin: 60px auto;
+      padding: 0 5%;
+    }
+    h1 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 36px;
+      font-weight: 600;
+      color: #064e3b;
+      margin-bottom: 8px;
+    }
+    .updated {
+      font-size: 13px;
+      color: #4a7a58;
+      margin-bottom: 40px;
+    }
+    h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #064e3b;
+      margin: 32px 0 10px;
+    }
+    p { font-size: 15px; color: #374151; margin-bottom: 12px; }
+    ul { padding-left: 20px; margin-bottom: 12px; }
+    li { font-size: 15px; color: #374151; margin-bottom: 6px; }
+    a { color: #059669; }
+    footer {
+      text-align: center;
+      padding: 32px 5%;
+      border-top: 1px solid rgba(5,150,105,0.15);
+      font-size: 13px;
+      color: #9ca3af;
+      margin-top: 60px;
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">Tex<span>Vault</span></a>
+  <a class="back-link" href="index.html">← Back to home</a>
+</nav>
+
+<main>
+  <h1>Privacy Policy</h1>
+  <p class="updated">Last updated: April 19, 2025</p>
+
+  <p>TexVault is a Chrome extension that helps you store and copy LaTeX snippets. This policy explains what data is handled and how.</p>
+
+  <h2>Data We Collect</h2>
+  <p>TexVault collects no personal information. The only data stored is the content you explicitly save:</p>
+  <ul>
+    <li>Custom snippet names and LaTeX code you create</li>
+    <li>Folder names you create</li>
+    <li>UI preferences (theme, view mode, active tab)</li>
+    <li>Pinned library templates</li>
+  </ul>
+
+  <h2>How Data Is Stored</h2>
+  <p>All data is stored using <strong>Chrome's built-in sync storage</strong> (<code>chrome.storage.sync</code>). This means your snippets are saved to your Chrome profile and automatically synced across your signed-in Chrome devices by Google. No data is sent to any third-party server — TexVault has no backend.</p>
+
+  <h2>Permissions Used</h2>
+  <ul>
+    <li><strong>storage</strong> — to save and sync your snippets and preferences via Chrome's storage API.</li>
+    <li><strong>clipboardWrite</strong> — to copy LaTeX code to your clipboard when you click a card.</li>
+    <li><strong>contextMenus</strong> — to add a "Save as TexVault snippet" option when you right-click selected text.</li>
+  </ul>
+  <p>No host permissions are requested. TexVault cannot read or modify any web page content.</p>
+
+  <h2>Third-Party Services</h2>
+  <p>TexVault uses <strong>KaTeX</strong> (bundled locally) to render math previews. KaTeX makes no network requests. No analytics, tracking, or advertising services are used.</p>
+
+  <h2>Data Sharing</h2>
+  <p>We do not share, sell, or transmit your data to anyone. Your snippets never leave your Chrome profile except through Google's own sync infrastructure, which is governed by <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>.</p>
+
+  <h2>Data Deletion</h2>
+  <p>To delete all TexVault data, uninstall the extension. You can also export and then clear your snippets from the Settings panel inside the extension. Removing the extension from Chrome removes all locally stored data.</p>
+
+  <h2>Children's Privacy</h2>
+  <p>TexVault does not knowingly collect data from children under 13. The extension stores only user-created content with no registration or account required.</p>
+
+  <h2>Contact</h2>
+  <p>Questions or concerns? Reach me at <a href="mailto:eslynch18@gmail.com">eslynch18@gmail.com</a> or open an issue on <a href="https://github.com/evan-lynch/TexVault" target="_blank" rel="noopener">GitHub</a>.</p>
+</main>
+
+<footer>© 2025 TexVault</footer>
+
+</body>
+</html>

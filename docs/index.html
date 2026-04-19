@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="TexVault — Your LaTeX snippet vault. Browse 100+ built-in templates or save your own, organized into folders and ready to copy instantly.">
+
+  <!-- Google Search Console verification — paste your meta tag here -->
+  <!-- <meta name="google-site-verification" content="PASTE_CODE_HERE"> -->
+
+  <title>TexVault — LaTeX Snippet Vault</title>
+
+  <link rel="icon" type="image/svg+xml" href="texvaultlogo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Fredoka:wght@600&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --accent:    #059669;
+      --accent-lt: #10b981;
+      --accent-dk: #047857;
+      --bg:        #ffffff;
+      --surface:   #f0fdf4;
+      --border:    rgba(5,150,105,0.15);
+      --text:      #0a1f0f;
+      --muted:     #4a7a58;
+      --radius:    14px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Outfit', system-ui, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+    }
+
+    /* ── NAV ─────────────────────────────────────────── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5%;
+      height: 64px;
+      background: rgba(255,255,255,0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .nav-logo img { width: 32px; height: 32px; }
+
+    .nav-logo-text {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: #064e3b;
+    }
+
+    .nav-logo-text span { color: #10b981; }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent);
+      color: #fff;
+      font-family: 'Outfit', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 9px 20px;
+      border-radius: 999px;
+      text-decoration: none;
+      transition: background 150ms ease, transform 150ms ease;
+    }
+
+    .nav-cta:hover { background: var(--accent-lt); transform: translateY(-1px); }
+
+    .nav-cta svg { flex-shrink: 0; }
+
+    /* ── HERO ────────────────────────────────────────── */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 100px 5% 80px;
+      background: linear-gradient(160deg, #f0fdf4 0%, #ffffff 60%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(16,185,129,0.12), transparent 70%);
+      top: -200px; left: 50%;
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(5,150,105,0.10);
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 5px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(5,150,105,0.20);
+      margin-bottom: 28px;
+    }
+
+    .hero h1 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: clamp(42px, 7vw, 76px);
+      font-weight: 600;
+      line-height: 1.1;
+      letter-spacing: -0.5px;
+      color: #064e3b;
+      max-width: 780px;
+      margin-bottom: 22px;
+    }
+
+    .hero h1 span { color: #10b981; }
+
+    .hero p {
+      font-size: clamp(16px, 2.5vw, 20px);
+      color: var(--muted);
+      max-width: 540px;
+      margin-bottom: 40px;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--accent);
+      color: #fff;
+      font-family: 'Outfit', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      padding: 14px 30px;
+      border-radius: 999px;
+      text-decoration: none;
+      box-shadow: 0 4px 20px rgba(5,150,105,0.35);
+      transition: background 150ms ease, transform 150ms ease, box-shadow 150ms ease;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-lt);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(5,150,105,0.40);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: var(--accent);
+      font-family: 'Outfit', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      padding: 14px 26px;
+      border-radius: 999px;
+      border: 1.5px solid var(--border);
+      text-decoration: none;
+      transition: background 150ms ease, border-color 150ms ease;
+    }
+
+    .btn-secondary:hover {
+      background: var(--surface);
+      border-color: var(--accent);
+    }
+
+    /* ── POPUP MOCKUP ────────────────────────────────── */
+    .hero-mockup {
+      margin-top: 64px;
+      position: relative;
+    }
+
+    .mockup-shadow {
+      border-radius: 18px;
+      box-shadow:
+        0 40px 100px rgba(0,0,0,0.14),
+        0 8px 30px rgba(5,150,105,0.12),
+        0 0 0 1px rgba(5,150,105,0.20);
+      overflow: hidden;
+      width: min(380px, 90vw);
+    }
+
+    .mockup-shadow img {
+      display: block;
+      width: 100%;
+    }
+
+    /* Floating formula chips */
+    .chip {
+      position: absolute;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 14px;
+      font-family: 'Georgia', serif;
+      font-style: italic;
+      font-size: 14px;
+      color: var(--accent-dk);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      white-space: nowrap;
+    }
+
+    .chip-1 { top: 20px;  left: -110px; transform: rotate(-4deg); }
+    .chip-2 { top: 140px; left: -130px; transform: rotate(3deg); }
+    .chip-3 { top: 60px;  right: -100px; transform: rotate(5deg); }
+    .chip-4 { bottom: 80px; right: -120px; transform: rotate(-3deg); }
+
+    @media (max-width: 700px) {
+      .chip { display: none; }
+    }
+
+    /* ── FEATURES ────────────────────────────────────── */
+    .features {
+      padding: 96px 5%;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      text-align: center;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+    }
+
+    .section-title {
+      text-align: center;
+      font-family: 'Fredoka', sans-serif;
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 600;
+      color: #064e3b;
+      margin-bottom: 56px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .feature-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 26px;
+      transition: transform 200ms ease, box-shadow 200ms ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 28px rgba(5,150,105,0.10);
+    }
+
+    .feature-icon {
+      width: 44px; height: 44px;
+      background: rgba(5,150,105,0.12);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      color: var(--accent);
+    }
+
+    .feature-card h3 {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .feature-card p {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    /* ── HOW IT WORKS ────────────────────────────────── */
+    .how {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 96px 5%;
+    }
+
+    .how-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 40px;
+      margin-top: 56px;
+    }
+
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .step-num {
+      width: 38px; height: 38px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+      flex-shrink: 0;
+    }
+
+    .step h3 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .step p {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    /* ── CTA BANNER ──────────────────────────────────── */
+    .cta-banner {
+      padding: 96px 5%;
+      text-align: center;
+      background: linear-gradient(135deg, #064e3b 0%, #059669 60%, #10b981 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-banner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    .cta-banner h2 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: clamp(28px, 4vw, 46px);
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .cta-banner p {
+      color: rgba(255,255,255,0.80);
+      font-size: 17px;
+      margin-bottom: 36px;
+      position: relative;
+    }
+
+    .btn-white {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #fff;
+      color: var(--accent-dk);
+      font-family: 'Outfit', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      padding: 14px 30px;
+      border-radius: 999px;
+      text-decoration: none;
+      position: relative;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      transition: transform 150ms ease, box-shadow 150ms ease;
+    }
+
+    .btn-white:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.20);
+    }
+
+    /* ── FOOTER ──────────────────────────────────────── */
+    footer {
+      padding: 32px 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-logo {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: #064e3b;
+      text-decoration: none;
+    }
+
+    .footer-logo span { color: #10b981; }
+
+    .footer-links {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      font-size: 13px;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 150ms ease;
+    }
+
+    .footer-links a:hover { color: var(--accent); }
+
+    .footer-copy {
+      font-size: 12px;
+      color: #9ca3af;
+      width: 100%;
+      text-align: center;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 600px) {
+      footer { justify-content: center; text-align: center; }
+      .footer-links { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ───────────────────────────────────────────────── -->
+<nav>
+  <a class="nav-logo" href="#">
+    <img src="texvaultlogo.svg" alt="TexVault logo">
+    <span class="nav-logo-text">Tex<span>Vault</span></span>
+  </a>
+  <a class="nav-cta" href="https://chromewebstore.google.com/detail/texvault/EXTENSION_ID" target="_blank" rel="noopener">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm0 14.5c-3.59 0-6.5-2.91-6.5-6.5S4.41 1.5 8 1.5 14.5 4.41 14.5 8 11.59 14.5 8 14.5zM8 3a5 5 0 100 10A5 5 0 008 3zm0 8a3 3 0 110-6 3 3 0 010 6z"/></svg>
+    Add to Chrome
+  </a>
+</nav>
+
+<!-- ── HERO ──────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-badge">
+    <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/></svg>
+    Free Chrome Extension
+  </div>
+
+  <h1>Your LaTeX snippet<br><span>vault</span></h1>
+
+  <p>Browse 100+ built-in templates or save your own custom snippets — organized into folders and ready to copy with one click.</p>
+
+  <div class="hero-btns">
+    <a class="btn-primary" href="https://chromewebstore.google.com/detail/texvault/EXTENSION_ID" target="_blank" rel="noopener">
+      <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm0 14.5c-3.59 0-6.5-2.91-6.5-6.5S4.41 1.5 8 1.5 14.5 4.41 14.5 8 11.59 14.5 8 14.5zM8 3a5 5 0 100 10A5 5 0 008 3zm0 8a3 3 0 110-6 3 3 0 010 6z"/></svg>
+      Add to Chrome — It's Free
+    </a>
+    <a class="btn-secondary" href="#features">
+      Learn more ↓
+    </a>
+  </div>
+
+  <div class="hero-mockup">
+    <div class="chip chip-1">∫<sub>a</sub><sup>b</sup> f(x) dx</div>
+    <div class="chip chip-2">e<sup>iπ</sup> + 1 = 0</div>
+    <div class="chip chip-3">∑<sub>n=1</sub><sup>∞</sup> aₙ</div>
+    <div class="chip chip-4">P(A|B) = P(B|A)·P(A)/P(B)</div>
+    <div class="mockup-shadow">
+      <img src="icon512.png" alt="TexVault extension preview" style="border-radius:18px;">
+    </div>
+  </div>
+</section>
+
+<!-- ── FEATURES ───────────────────────────────────────────── -->
+<section class="features" id="features">
+  <p class="section-label">Features</p>
+  <h2 class="section-title">Everything you need for LaTeX</h2>
+
+  <div class="features-grid">
+
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg>
+      </div>
+      <h3>100+ Built-in Templates</h3>
+      <p>From basic fractions to advanced environments — integrals, matrices, Greek letters, proofs, and more, organized by category.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>
+      </div>
+      <h3>Save Custom Snippets</h3>
+      <p>Add your own LaTeX — paste any formula or environment, give it a name, and it's instantly searchable and ready to copy.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>
+      </div>
+      <h3>Folder Organization</h3>
+      <p>Group your snippets into folders — Calculus, Homework, Linear Algebra — and filter instantly with one click.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+      </div>
+      <h3>Live KaTeX Preview</h3>
+      <p>See your LaTeX rendered beautifully before you save — every snippet shows a real math preview, not raw code.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg>
+      </div>
+      <h3>Right-Click to Save</h3>
+      <p>Select any LaTeX on the web, right-click, and choose "Save as TexVault snippet" — it pre-fills the modal automatically.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+      </div>
+      <h3>Synced Across Devices</h3>
+      <p>Your snippets are stored in Chrome's built-in sync — automatically available on every Chrome device you're signed into.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── HOW IT WORKS ───────────────────────────────────────── -->
+<section class="how">
+  <div class="how-inner">
+    <p class="section-label">How it works</p>
+    <h2 class="section-title">Copy LaTeX in 3 seconds</h2>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Open TexVault</h3>
+        <p>Click the extension icon or press <strong>Alt+T</strong> from any tab to open your snippet vault instantly.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Find your snippet</h3>
+        <p>Browse the Library or your Custom tab. Use the search bar to filter by name or LaTeX code in real time.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Click to copy</h3>
+        <p>Click any card to copy the LaTeX to your clipboard. Paste it directly into Overleaf, VS Code, or anywhere else.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA BANNER ────────────────────────────────────────── -->
+<section class="cta-banner">
+  <h2>Start writing LaTeX faster</h2>
+  <p>Free forever. No account required. Works everywhere Chrome does.</p>
+  <a class="btn-white" href="https://chromewebstore.google.com/detail/texvault/EXTENSION_ID" target="_blank" rel="noopener">
+    <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm0 14.5c-3.59 0-6.5-2.91-6.5-6.5S4.41 1.5 8 1.5 14.5 4.41 14.5 8 11.59 14.5 8 14.5zM8 3a5 5 0 100 10A5 5 0 008 3zm0 8a3 3 0 110-6 3 3 0 010 6z"/></svg>
+    Add to Chrome — It's Free
+  </a>
+</section>
+
+<!-- ── FOOTER ─────────────────────────────────────────────── -->
+<footer>
+  <a class="footer-logo" href="#">Tex<span>Vault</span></a>
+  <div class="footer-links">
+    <a href="https://github.com/evan-lynch/TexVault" target="_blank" rel="noopener">GitHub</a>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="https://chromewebstore.google.com/detail/texvault/EXTENSION_ID" target="_blank" rel="noopener">Chrome Web Store</a>
+  </div>
+  <p class="footer-copy">© 2025 TexVault. Built for LaTeX writers everywhere.</p>
+</footer>
+
+</body>
+</html>
