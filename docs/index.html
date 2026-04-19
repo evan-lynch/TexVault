@@ -346,6 +346,18 @@
     .footer-links a:hover { color: var(--accent); }
     .footer-copy { font-size: 12px; color: #9ca3af; width: 100%; text-align: center; margin-top: 8px; }
     @media (max-width: 600px) { footer { justify-content: center; text-align: center; } .footer-links { justify-content: center; } }
+
+    /* Feature card fade-in */
+    .feature-card {
+      opacity: 0;
+      transform: translateY(22px);
+    }
+    .feature-card.visible {
+      animation: card-appear 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes card-appear {
+      to { opacity: 1; transform: translateY(0); }
+    }
   </style>
 </head>
 <body>
@@ -405,7 +417,7 @@
       <!-- Header -->
       <div class="mock-header">
         <div class="mock-logo">
-          <div class="mock-logo-dot"></div>
+          <img src="texvaultlogo.svg" alt="" style="width:22px;height:22px;flex-shrink:0;">
           <span class="mock-logo-text">Tex<span>Vault</span></span>
         </div>
         <svg class="mock-gear" viewBox="0 0 24 24" fill="#4a7a58"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
@@ -417,9 +429,12 @@
           <span class="mock-tab">Library</span>
         </div>
         <div class="mock-icons">
-          <div class="mock-icon-dot"></div>
-          <div class="mock-icon-dot"></div>
-          <div class="mock-icon-dot"></div>
+          <!-- sort lines -->
+          <svg width="13" height="13" viewBox="0 0 14 14" fill="rgba(74,122,88,0.6)"><rect x="1" y="2" width="12" height="2" rx="1"/><rect x="1" y="6" width="8" height="2" rx="1"/><rect x="1" y="10" width="5" height="2" rx="1"/></svg>
+          <!-- 2x2 grid -->
+          <svg width="13" height="13" viewBox="0 0 14 14" fill="rgba(74,122,88,0.6)"><rect x="0" y="0" width="6" height="6" rx="1"/><rect x="8" y="0" width="6" height="6" rx="1"/><rect x="0" y="8" width="6" height="6" rx="1"/><rect x="8" y="8" width="6" height="6" rx="1"/></svg>
+          <!-- folder -->
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="rgba(74,122,88,0.6)"><path d="M1.5 4a1 1 0 011-1H5.8l1.1 1.1a1 1 0 00.7.3H12.5a1 1 0 011 1V11a1 1 0 01-1 1h-10a1 1 0 01-1-1V4z"/></svg>
         </div>
       </div>
       <!-- Search -->
@@ -535,5 +550,20 @@
   <p class="footer-copy">© 2026 TexVault. Built for LaTeX writers everywhere.</p>
 </footer>
 
+<script>
+  const cards = document.querySelectorAll('.feature-card');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const card = entry.target;
+        const i = [...cards].indexOf(card);
+        card.style.animationDelay = `${i * 80}ms`;
+        card.classList.add('visible');
+        observer.unobserve(card);
+      }
+    });
+  }, { threshold: 0.12 });
+  cards.forEach(c => observer.observe(c));
+</script>
 </body>
 </html>
