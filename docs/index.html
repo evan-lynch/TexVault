@@ -4,17 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="TexVault: Your LaTeX snippet vault. Browse 100+ built-in templates or save your own, organized into folders and ready to copy instantly.">
-
-  <!-- Google Search Console verification: paste your meta tag here -->
   <!-- <meta name="google-site-verification" content="PASTE_CODE_HERE"> -->
-
   <title>TexVault: LaTeX Snippet Vault</title>
-
   <link rel="icon" type="image/svg+xml" href="texvaultlogo.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Fredoka:wght@600&display=swap" rel="stylesheet">
-
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -31,512 +26,326 @@
     }
 
     html { scroll-behavior: smooth; }
+    body { font-family: 'Outfit', system-ui, sans-serif; color: var(--text); background: var(--bg); line-height: 1.6; }
 
-    body {
-      font-family: 'Outfit', system-ui, sans-serif;
-      color: var(--text);
-      background: var(--bg);
-      line-height: 1.6;
-    }
-
-    /* NAV */
+    /* ── NAV ── */
     nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 5%;
-      height: 64px;
-      background: rgba(255,255,255,0.88);
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5%; height: 64px;
+      background: rgba(255,255,255,0.90);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
     }
-
-    .nav-logo {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      text-decoration: none;
-      flex-shrink: 0;
-    }
-
-    .nav-logo img { width: 32px; height: 32px; flex-shrink: 0; }
-
-    .nav-logo-text {
+    .nav-logo { display: flex; align-items: center; gap: 9px; text-decoration: none; flex-shrink: 0; }
+    .nav-logo img { width: 30px; height: 30px; flex-shrink: 0; }
+    .nav-logo-wordmark {
       font-family: 'Fredoka', sans-serif;
-      font-size: 22px;
-      font-weight: 600;
-      color: #064e3b;
-      white-space: nowrap;
-      letter-spacing: 0.3px;
+      font-size: 21px; font-weight: 600;
+      white-space: nowrap; letter-spacing: 0.4px;
+      display: flex; align-items: baseline; gap: 0;
     }
-
-    .nav-logo-text span { color: #10b981; }
-
+    .nav-tex   { color: #064e3b; }
+    .nav-vault { color: #10b981; }
     .nav-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--accent);
-      color: #fff;
-      font-family: 'Outfit', sans-serif;
-      font-size: 14px;
-      font-weight: 600;
-      padding: 9px 20px;
-      border-radius: 999px;
-      text-decoration: none;
-      white-space: nowrap;
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--accent); color: #fff;
+      font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600;
+      padding: 9px 20px; border-radius: 999px; text-decoration: none; white-space: nowrap;
       transition: background 150ms ease, transform 150ms ease;
     }
-
     .nav-cta:hover { background: var(--accent-lt); transform: translateY(-1px); }
 
-    /* HERO */
+    /* ── HERO ── */
     .hero {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      padding: 80px 5% 60px;
-      background: linear-gradient(160deg, #f0fdf4 0%, #ffffff 60%);
-      position: relative;
-      overflow: hidden;
+      display: flex; flex-direction: column; align-items: center; text-align: center;
+      padding: 80px 5% 0;
+      background: linear-gradient(160deg, #f0fdf4 0%, #ffffff 55%);
+      position: relative; overflow: hidden;
     }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      width: 700px; height: 700px;
-      background: radial-gradient(circle, rgba(16,185,129,0.10), transparent 70%);
-      top: -200px; left: 50%;
-      transform: translateX(-50%);
-      pointer-events: none;
-    }
-
     .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(5,150,105,0.10);
-      color: var(--accent);
-      font-size: 13px;
-      font-weight: 600;
-      padding: 5px 14px;
-      border-radius: 999px;
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(5,150,105,0.10); color: var(--accent);
+      font-size: 13px; font-weight: 600;
+      padding: 5px 14px; border-radius: 999px;
       border: 1px solid rgba(5,150,105,0.20);
       margin-bottom: 28px;
     }
-
     .hero h1 {
       font-family: 'Fredoka', sans-serif;
-      font-size: clamp(42px, 7vw, 76px);
-      font-weight: 600;
-      line-height: 1.1;
-      color: #064e3b;
-      max-width: 780px;
-      margin-bottom: 22px;
+      font-size: clamp(42px, 7vw, 76px); font-weight: 600; line-height: 1.1;
+      color: #064e3b; max-width: 780px; margin-bottom: 22px;
     }
-
     .hero h1 span { color: #10b981; }
-
-    .hero p {
-      font-size: clamp(16px, 2.5vw, 20px);
-      color: var(--muted);
-      max-width: 520px;
-      margin-bottom: 40px;
+    .hero-sub {
+      font-size: clamp(16px, 2.5vw, 20px); color: var(--muted);
+      max-width: 500px; margin-bottom: 40px;
     }
-
-    .hero-btns {
-      display: flex;
-      gap: 14px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
+    .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-bottom: 0; }
 
     .btn-primary {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: var(--accent);
-      color: #fff;
-      font-family: 'Outfit', sans-serif;
-      font-size: 16px;
-      font-weight: 600;
-      padding: 14px 30px;
-      border-radius: 999px;
-      text-decoration: none;
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--accent); color: #fff;
+      font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 600;
+      padding: 14px 30px; border-radius: 999px; text-decoration: none;
       box-shadow: 0 4px 20px rgba(5,150,105,0.35);
       transition: background 150ms ease, transform 150ms ease, box-shadow 150ms ease;
     }
-
-    .btn-primary:hover {
-      background: var(--accent-lt);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 28px rgba(5,150,105,0.40);
-    }
-
+    .btn-primary:hover { background: var(--accent-lt); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(5,150,105,0.40); }
     .btn-secondary {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: transparent;
-      color: var(--accent);
-      font-family: 'Outfit', sans-serif;
-      font-size: 16px;
-      font-weight: 600;
-      padding: 14px 26px;
-      border-radius: 999px;
-      border: 1.5px solid var(--border);
-      text-decoration: none;
+      display: inline-flex; align-items: center; gap: 8px;
+      background: transparent; color: var(--accent);
+      font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 600;
+      padding: 14px 26px; border-radius: 999px;
+      border: 1.5px solid var(--border); text-decoration: none;
       transition: background 150ms ease, border-color 150ms ease;
     }
+    .btn-secondary:hover { background: var(--surface); border-color: var(--accent); }
 
-    .btn-secondary:hover {
-      background: var(--surface);
-      border-color: var(--accent);
+    /* ── HERO VISUAL ── */
+    .hero-visual {
+      position: relative;
+      width: 100%;
+      max-width: 680px;
+      margin-top: 60px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
-    /* ORBIT SYSTEM */
-    .orbit-system {
+    /* Big logo with glow */
+    .hero-logo-wrap {
       position: relative;
-      width: 480px;
-      height: 480px;
-      margin-top: 64px;
+      width: 200px; height: 200px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .hero-logo-glow {
+      position: absolute;
+      inset: -40px;
+      background: radial-gradient(circle, rgba(16,185,129,0.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-logo-wrap img {
+      width: 160px; height: 160px;
+      filter: drop-shadow(0 6px 24px rgba(5,150,105,0.25));
+      position: relative; z-index: 1;
+    }
+
+    /* Formula chips — positioned relative to .hero-logo-area */
+    .hero-logo-area {
+      position: relative;
+      width: 620px;
+      height: 340px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       flex-shrink: 0;
     }
 
-    @media (max-width: 540px) {
-      .orbit-system { width: 320px; height: 320px; transform: scale(0.67); margin-top: 20px; }
+    @media (max-width: 660px) {
+      .hero-logo-area { width: 340px; height: 280px; }
+      .formula-chip { display: none; }
+      .formula-chip.chip-c, .formula-chip.chip-d { display: block; font-size: 12px; }
     }
 
-    /* Dashed orbit rings */
-    .orbit-track {
+    .formula-chip {
       position: absolute;
-      top: 50%; left: 50%;
-      border-radius: 50%;
-      border: 1px dashed rgba(5,150,105,0.20);
-      transform: translate(-50%, -50%);
-    }
-    .orbit-track-1 { width: 230px; height: 230px; }
-    .orbit-track-2 { width: 350px; height: 350px; }
-    .orbit-track-3 { width: 464px; height: 464px; }
-
-    /* Each arm-wrapper is a circle centered on the logo; it spins */
-    .arm-wrapper {
-      position: absolute;
-      top: 50%; left: 50%;
-      border-radius: 50%;
-    }
-
-    .arm-wrapper-1 {
-      width: 230px; height: 230px;
-      margin: -115px 0 0 -115px;
-      animation: spin 13s linear infinite;
-    }
-    .arm-wrapper-1b {
-      width: 230px; height: 230px;
-      margin: -115px 0 0 -115px;
-      animation: spin 13s linear infinite;
-      animation-delay: -6.5s;
-    }
-    .arm-wrapper-2 {
-      width: 350px; height: 350px;
-      margin: -175px 0 0 -175px;
-      animation: spin 20s linear infinite reverse;
-    }
-    .arm-wrapper-2b {
-      width: 350px; height: 350px;
-      margin: -175px 0 0 -175px;
-      animation: spin 20s linear infinite reverse;
-      animation-delay: -10s;
-    }
-    .arm-wrapper-3 {
-      width: 464px; height: 464px;
-      margin: -232px 0 0 -232px;
-      animation: spin 30s linear infinite;
-    }
-    .arm-wrapper-3b {
-      width: 464px; height: 464px;
-      margin: -232px 0 0 -232px;
-      animation: spin 30s linear infinite;
-      animation-delay: -15s;
-    }
-
-    /* Chip pill sits at the top of the arm-wrapper and counter-rotates */
-    .chip-pill {
-      position: absolute;
-      top: -16px;
-      left: 50%;
-      background: #ffffff;
-      border: 1px solid rgba(5,150,105,0.25);
+      background: #fff;
+      border: 1px solid rgba(5,150,105,0.22);
       border-radius: 99px;
-      padding: 6px 14px;
+      padding: 7px 16px;
       font-family: 'Georgia', serif;
       font-style: italic;
-      font-size: 13px;
+      font-size: 14px;
       color: var(--accent-dk);
-      box-shadow: 0 2px 12px rgba(0,0,0,0.09);
+      box-shadow: 0 3px 14px rgba(0,0,0,0.08);
       white-space: nowrap;
     }
 
-    .arm-wrapper-1 .chip-pill,
-    .arm-wrapper-1b .chip-pill {
-      transform: translateX(-50%);
-      animation: counter-spin-13 13s linear infinite;
-    }
-    .arm-wrapper-1b .chip-pill { animation-delay: -6.5s; }
+    /* Positions around center logo */
+    .chip-a { top:  16px; left:  20px;  animation: drift-a 6s ease-in-out infinite; }
+    .chip-b { top:  10px; right: 30px;  animation: drift-b 7s ease-in-out infinite 0.8s; }
+    .chip-c { top: 50%;  left:  0px;   transform: translateY(-50%); animation: drift-c 5.5s ease-in-out infinite 0.3s; }
+    .chip-d { top: 50%;  right: 0px;   transform: translateY(-50%); animation: drift-d 6.5s ease-in-out infinite 1.2s; }
+    .chip-e { bottom: 14px; left: 60px;  animation: drift-e 7.5s ease-in-out infinite 0.6s; }
+    .chip-f { bottom: 14px; right: 40px; animation: drift-f 5.8s ease-in-out infinite 1.5s; }
 
-    .arm-wrapper-2 .chip-pill,
-    .arm-wrapper-2b .chip-pill {
-      transform: translateX(-50%);
-      animation: counter-spin-20 20s linear infinite reverse;
-    }
-    .arm-wrapper-2b .chip-pill { animation-delay: -10s; }
+    @keyframes drift-a { 0%,100% { transform: translate(0,0) rotate(-4deg); } 50% { transform: translate(6px,-10px) rotate(-2deg); } }
+    @keyframes drift-b { 0%,100% { transform: translate(0,0) rotate(3deg); }  50% { transform: translate(-8px,-8px) rotate(5deg); } }
+    @keyframes drift-c { 0%,100% { transform: translateY(-50%) translate(0,0); } 50% { transform: translateY(calc(-50% - 8px)) translate(4px, 0); } }
+    @keyframes drift-d { 0%,100% { transform: translateY(-50%) translate(0,0); } 50% { transform: translateY(calc(-50% + 9px)) translate(-5px, 0); } }
+    @keyframes drift-e { 0%,100% { transform: translate(0,0) rotate(-2deg); } 50% { transform: translate(-6px,8px) rotate(-4deg); } }
+    @keyframes drift-f { 0%,100% { transform: translate(0,0) rotate(4deg); }  50% { transform: translate(5px,10px) rotate(2deg); } }
 
-    .arm-wrapper-3 .chip-pill,
-    .arm-wrapper-3b .chip-pill {
-      transform: translateX(-50%);
-      animation: counter-spin-30 30s linear infinite;
-    }
-    .arm-wrapper-3b .chip-pill { animation-delay: -15s; }
-
-    @keyframes spin {
-      from { transform: rotate(0deg); }
-      to   { transform: rotate(360deg); }
-    }
-
-    @keyframes counter-spin-13 {
-      from { transform: translateX(-50%) rotate(0deg); }
-      to   { transform: translateX(-50%) rotate(-360deg); }
-    }
-    @keyframes counter-spin-20 {
-      from { transform: translateX(-50%) rotate(0deg); }
-      to   { transform: translateX(-50%) rotate(360deg); }
-    }
-    @keyframes counter-spin-30 {
-      from { transform: translateX(-50%) rotate(0deg); }
-      to   { transform: translateX(-50%) rotate(-360deg); }
+    /* ── EXTENSION MOCKUP ── */
+    .ext-mockup {
+      width: 340px;
+      background: #fff;
+      border: 1px solid rgba(5,150,105,0.18);
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.10), 0 4px 16px rgba(5,150,105,0.08);
+      overflow: hidden;
+      margin-top: 32px;
+      /* fade+slide in */
+      animation: mockup-enter 0.9s cubic-bezier(0.16,1,0.3,1) 0.4s both;
+      /* gradient mask fades out the bottom */
+      -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+      mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
     }
 
-    /* Central logo */
-    .orbit-center {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 5;
+    @keyframes mockup-enter {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
-    .orbit-center img {
-      width: 110px;
-      height: 110px;
-      filter: drop-shadow(0 6px 22px rgba(5,150,105,0.30));
+    /* Mockup header */
+    .mock-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 14px;
+      background: #f0fdf4;
+      border-bottom: 1px solid rgba(5,150,105,0.10);
     }
+    .mock-logo { display: flex; align-items: center; gap: 6px; }
+    .mock-logo-dot { width: 22px; height: 22px; background: #10b981; border-radius: 50%; }
+    .mock-logo-text { font-family: 'Fredoka', sans-serif; font-size: 15px; font-weight: 600; color: #064e3b; }
+    .mock-logo-text span { color: #10b981; }
+    .mock-gear { width: 16px; height: 16px; opacity: 0.35; }
 
-    /* FEATURES */
-    .features {
-      padding: 96px 5%;
-      max-width: 1100px;
-      margin: 0 auto;
+    /* Mockup tabs */
+    .mock-tabs {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 12px;
+      background: #f7fef9;
+      border-bottom: 1px solid rgba(5,150,105,0.08);
+      height: 36px;
     }
-
-    .section-label {
-      text-align: center;
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 0.10em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 14px;
+    .mock-tab-group { display: flex; gap: 4px; }
+    .mock-tab {
+      font-size: 12px; font-weight: 500; color: #4a7a58;
+      padding: 4px 14px; border-radius: 99px;
     }
+    .mock-tab.active { background: #059669; color: #fff; font-weight: 600; }
+    .mock-icons { display: flex; gap: 3px; }
+    .mock-icon-dot { width: 18px; height: 18px; background: rgba(5,150,105,0.12); border-radius: 4px; }
 
-    .section-title {
-      text-align: center;
-      font-family: 'Fredoka', sans-serif;
-      font-size: clamp(28px, 4vw, 42px);
-      font-weight: 600;
-      color: #064e3b;
-      margin-bottom: 56px;
+    /* Mockup search */
+    .mock-search {
+      padding: 7px 12px;
+      background: #f7fef9;
+      border-bottom: 1px solid rgba(5,150,105,0.07);
     }
+    .mock-search-bar {
+      height: 24px; background: #fff;
+      border: 1px solid rgba(5,150,105,0.15);
+      border-radius: 99px;
+      display: flex; align-items: center;
+      padding: 0 10px;
+    }
+    .mock-search-text { font-size: 10px; color: #9ca3af; }
 
-    .features-grid {
+    /* Mockup card grid */
+    .mock-cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 24px;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+      padding: 10px 11px 14px;
+    }
+    .mock-card {
+      background: #fff;
+      border: 1px solid rgba(0,0,0,0.07);
+      border-radius: 10px;
+      padding: 10px 8px 8px;
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      min-height: 80px;
+    }
+    .mock-card-preview {
+      flex: 1; width: 100%;
+      background: linear-gradient(135deg, rgba(5,150,105,0.06), rgba(5,150,105,0.03));
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Georgia', serif; font-style: italic;
+      font-size: 13px; color: #047857;
+    }
+    .mock-card-name {
+      font-size: 9px; color: #4a7a58; font-weight: 500;
     }
 
+    /* ── FEATURES ── */
+    .features { padding: 96px 5%; max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      text-align: center; font-size: 13px; font-weight: 700;
+      letter-spacing: 0.10em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 14px;
+    }
+    .section-title {
+      text-align: center; font-family: 'Fredoka', sans-serif;
+      font-size: clamp(28px, 4vw, 42px); font-weight: 600;
+      color: #064e3b; margin-bottom: 56px;
+    }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
     .feature-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 28px 26px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 28px 26px;
       transition: transform 200ms ease, box-shadow 200ms ease;
     }
-
-    .feature-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 28px rgba(5,150,105,0.10);
-    }
-
+    .feature-card:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(5,150,105,0.10); }
     .feature-icon {
-      width: 44px; height: 44px;
-      background: rgba(5,150,105,0.12);
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 16px;
-      color: var(--accent);
+      width: 44px; height: 44px; background: rgba(5,150,105,0.12);
+      border-radius: 12px; display: flex; align-items: center; justify-content: center;
+      margin-bottom: 16px; color: var(--accent);
     }
+    .feature-card h3 { font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+    .feature-card p  { font-size: 14px; color: var(--muted); line-height: 1.65; }
 
-    .feature-card h3 {
-      font-size: 17px;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 8px;
-    }
-
-    .feature-card p {
-      font-size: 14px;
-      color: var(--muted);
-      line-height: 1.65;
-    }
-
-    /* HOW IT WORKS */
-    .how {
-      background: var(--surface);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      padding: 96px 5%;
-    }
-
+    /* ── HOW IT WORKS ── */
+    .how { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 96px 5%; }
     .how-inner { max-width: 900px; margin: 0 auto; }
-
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 40px;
-      margin-top: 56px;
-    }
-
+    .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 40px; margin-top: 56px; }
     .step { display: flex; flex-direction: column; align-items: flex-start; }
-
     .step-num {
-      width: 38px; height: 38px;
-      background: var(--accent);
-      color: #fff;
-      font-size: 16px;
-      font-weight: 700;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 14px;
-      flex-shrink: 0;
+      width: 38px; height: 38px; background: var(--accent); color: #fff;
+      font-size: 16px; font-weight: 700; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 14px; flex-shrink: 0;
     }
-
     .step h3 { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
     .step p  { font-size: 14px; color: var(--muted); line-height: 1.65; }
 
-    /* CTA BANNER */
+    /* ── CTA ── */
     .cta-banner {
-      padding: 96px 5%;
-      text-align: center;
+      padding: 96px 5%; text-align: center;
       background: linear-gradient(135deg, #064e3b 0%, #059669 60%, #10b981 100%);
-      position: relative;
-      overflow: hidden;
+      position: relative; overflow: hidden;
     }
-
     .cta-banner::before {
-      content: '';
-      position: absolute;
-      inset: 0;
+      content: ''; position: absolute; inset: 0;
       background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
     }
-
-    .cta-banner h2 {
-      font-family: 'Fredoka', sans-serif;
-      font-size: clamp(28px, 4vw, 46px);
-      font-weight: 600;
-      color: #fff;
-      margin-bottom: 16px;
-      position: relative;
-    }
-
-    .cta-banner p {
-      color: rgba(255,255,255,0.80);
-      font-size: 17px;
-      margin-bottom: 36px;
-      position: relative;
-    }
-
+    .cta-banner h2 { font-family: 'Fredoka', sans-serif; font-size: clamp(28px, 4vw, 46px); font-weight: 600; color: #fff; margin-bottom: 16px; position: relative; }
+    .cta-banner p  { color: rgba(255,255,255,0.80); font-size: 17px; margin-bottom: 36px; position: relative; }
     .btn-white {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: #fff;
-      color: var(--accent-dk);
-      font-family: 'Outfit', sans-serif;
-      font-size: 16px;
-      font-weight: 700;
-      padding: 14px 30px;
-      border-radius: 999px;
-      text-decoration: none;
-      position: relative;
+      display: inline-flex; align-items: center; gap: 10px;
+      background: #fff; color: var(--accent-dk);
+      font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 700;
+      padding: 14px 30px; border-radius: 999px; text-decoration: none; position: relative;
       box-shadow: 0 4px 20px rgba(0,0,0,0.15);
       transition: transform 150ms ease, box-shadow 150ms ease;
     }
+    .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.20); }
 
-    .btn-white:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 30px rgba(0,0,0,0.20);
-    }
-
-    /* FOOTER */
+    /* ── FOOTER ── */
     footer {
-      padding: 32px 5%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
-      border-top: 1px solid var(--border);
+      padding: 32px 5%; display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 12px; border-top: 1px solid var(--border);
     }
-
-    .footer-logo {
-      font-family: 'Fredoka', sans-serif;
-      font-size: 18px;
-      font-weight: 600;
-      color: #064e3b;
-      text-decoration: none;
-    }
-
+    .footer-logo { font-family: 'Fredoka', sans-serif; font-size: 18px; font-weight: 600; color: #064e3b; text-decoration: none; }
     .footer-logo span { color: #10b981; }
-
     .footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
-
-    .footer-links a {
-      font-size: 13px;
-      color: var(--muted);
-      text-decoration: none;
-      transition: color 150ms ease;
-    }
-
+    .footer-links a { font-size: 13px; color: var(--muted); text-decoration: none; transition: color 150ms ease; }
     .footer-links a:hover { color: var(--accent); }
-
-    .footer-copy {
-      font-size: 12px;
-      color: #9ca3af;
-      width: 100%;
-      text-align: center;
-      margin-top: 8px;
-    }
-
-    @media (max-width: 600px) {
-      footer { justify-content: center; text-align: center; }
-      .footer-links { justify-content: center; }
-    }
+    .footer-copy { font-size: 12px; color: #9ca3af; width: 100%; text-align: center; margin-top: 8px; }
+    @media (max-width: 600px) { footer { justify-content: center; text-align: center; } .footer-links { justify-content: center; } }
   </style>
 </head>
 <body>
@@ -545,7 +354,9 @@
 <nav>
   <a class="nav-logo" href="#">
     <img src="texvaultlogo.svg" alt="TexVault logo">
-    <span class="nav-logo-text">Tex<span>Vault</span></span>
+    <span class="nav-logo-wordmark">
+      <span class="nav-tex">Tex</span><span class="nav-vault">Vault</span>
+    </span>
   </a>
   <a class="nav-cta" href="https://chromewebstore.google.com/detail/texvault/mpkgpkncngpfbjoeamibkedcihonhbpo" target="_blank" rel="noopener">
     <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm0 14.5c-3.59 0-6.5-2.91-6.5-6.5S4.41 1.5 8 1.5 14.5 4.41 14.5 8 11.59 14.5 8 14.5zM8 3a5 5 0 100 10A5 5 0 008 3zm0 8a3 3 0 110-6 3 3 0 010 6z"/></svg>
@@ -561,8 +372,7 @@
   </div>
 
   <h1>Your LaTeX snippet <span>vault</span></h1>
-
-  <p>Browse 100+ built-in templates or save your own, organized into folders and ready to copy in one click.</p>
+  <p class="hero-sub">Browse 100+ built-in templates or save your own, organized into folders and ready to copy in one click.</p>
 
   <div class="hero-btns">
     <a class="btn-primary" href="https://chromewebstore.google.com/detail/texvault/mpkgpkncngpfbjoeamibkedcihonhbpo" target="_blank" rel="noopener">
@@ -572,40 +382,71 @@
     <a class="btn-secondary" href="#features">Learn more ↓</a>
   </div>
 
-  <!-- Orbiting formula animation -->
-  <div class="orbit-system">
-    <!-- Visible orbit tracks -->
-    <div class="orbit-track orbit-track-1"></div>
-    <div class="orbit-track orbit-track-2"></div>
-    <div class="orbit-track orbit-track-3"></div>
+  <!-- Hero visual: big logo + floating chips + faded mockup -->
+  <div class="hero-visual">
+    <div class="hero-logo-area">
+      <!-- Floating formula chips -->
+      <div class="formula-chip chip-a">∫<sub>a</sub><sup>b</sup> f(x) dx</div>
+      <div class="formula-chip chip-b">e<sup>iπ</sup> + 1 = 0</div>
+      <div class="formula-chip chip-c">∑<sub>n=1</sub><sup>∞</sup> aₙ</div>
+      <div class="formula-chip chip-d">∂f / ∂x</div>
+      <div class="formula-chip chip-e">Av = λv</div>
+      <div class="formula-chip chip-f">P(A|B) = P(B|A)·P(A)/P(B)</div>
 
-    <!-- Ring 1 chips (r = 115px) -->
-    <div class="arm-wrapper arm-wrapper-1">
-      <span class="chip-pill">∫<sub>a</sub><sup>b</sup> f(x) dx</span>
-    </div>
-    <div class="arm-wrapper arm-wrapper-1b">
-      <span class="chip-pill">∑<sub>n=1</sub><sup>∞</sup> aₙ</span>
-    </div>
-
-    <!-- Ring 2 chips (r = 175px) -->
-    <div class="arm-wrapper arm-wrapper-2">
-      <span class="chip-pill">e<sup>iπ</sup> + 1 = 0</span>
-    </div>
-    <div class="arm-wrapper arm-wrapper-2b">
-      <span class="chip-pill">Av = λv</span>
+      <!-- Big central logo -->
+      <div class="hero-logo-wrap">
+        <div class="hero-logo-glow"></div>
+        <img src="texvaultlogo.svg" alt="TexVault">
+      </div>
     </div>
 
-    <!-- Ring 3 chips (r = 232px) -->
-    <div class="arm-wrapper arm-wrapper-3">
-      <span class="chip-pill">P(A|B) = P(B|A) · P(A) / P(B)</span>
-    </div>
-    <div class="arm-wrapper arm-wrapper-3b">
-      <span class="chip-pill">∂f / ∂x</span>
-    </div>
-
-    <!-- Center logo -->
-    <div class="orbit-center">
-      <img src="texvaultlogo.svg" alt="TexVault">
+    <!-- Faded extension UI mockup -->
+    <div class="ext-mockup">
+      <!-- Header -->
+      <div class="mock-header">
+        <div class="mock-logo">
+          <div class="mock-logo-dot"></div>
+          <span class="mock-logo-text">Tex<span>Vault</span></span>
+        </div>
+        <svg class="mock-gear" viewBox="0 0 24 24" fill="#4a7a58"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+      </div>
+      <!-- Tabs -->
+      <div class="mock-tabs">
+        <div class="mock-tab-group">
+          <span class="mock-tab active">Custom</span>
+          <span class="mock-tab">Library</span>
+        </div>
+        <div class="mock-icons">
+          <div class="mock-icon-dot"></div>
+          <div class="mock-icon-dot"></div>
+          <div class="mock-icon-dot"></div>
+        </div>
+      </div>
+      <!-- Search -->
+      <div class="mock-search">
+        <div class="mock-search-bar">
+          <span class="mock-search-text">Search snippets and code...</span>
+        </div>
+      </div>
+      <!-- Cards -->
+      <div class="mock-cards">
+        <div class="mock-card">
+          <div class="mock-card-preview">∫ f(x) dx</div>
+          <div class="mock-card-name">Integral</div>
+        </div>
+        <div class="mock-card">
+          <div class="mock-card-preview">e<sup>iπ</sup>+1=0</div>
+          <div class="mock-card-name">Euler's Identity</div>
+        </div>
+        <div class="mock-card">
+          <div class="mock-card-preview">Av = λv</div>
+          <div class="mock-card-name">Eigenvalue Eq.</div>
+        </div>
+        <div class="mock-card">
+          <div class="mock-card-preview">∂f/∂x</div>
+          <div class="mock-card-name">Partial Deriv.</div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -614,57 +455,37 @@
 <section class="features" id="features">
   <p class="section-label">Features</p>
   <h2 class="section-title">Everything you need for LaTeX</h2>
-
   <div class="features-grid">
-
     <div class="feature-card">
-      <div class="feature-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg>
-      </div>
+      <div class="feature-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg></div>
       <h3>100+ Built-in Templates</h3>
       <p>Integrals, matrices, Greek letters, proofs, and more. Everything is sorted into categories so you can find what you need fast.</p>
     </div>
-
     <div class="feature-card">
-      <div class="feature-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>
-      </div>
+      <div class="feature-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg></div>
       <h3>Save Custom Snippets</h3>
       <p>Paste any formula or environment, give it a name, and it's searchable and ready to copy whenever you need it.</p>
     </div>
-
     <div class="feature-card">
-      <div class="feature-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>
-      </div>
+      <div class="feature-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg></div>
       <h3>Folder Organization</h3>
       <p>Group snippets into folders like Calculus, Homework, or Linear Algebra and filter them down in one click.</p>
     </div>
-
     <div class="feature-card">
-      <div class="feature-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
-      </div>
+      <div class="feature-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg></div>
       <h3>Live KaTeX Preview</h3>
       <p>Every snippet shows a real rendered math preview. You see exactly what it looks like before you copy it.</p>
     </div>
-
     <div class="feature-card">
-      <div class="feature-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg>
-      </div>
+      <div class="feature-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg></div>
       <h3>Right-Click to Save</h3>
       <p>Select any LaTeX on the web, right-click and pick "Save as TexVault snippet" and it pre-fills the form for you.</p>
     </div>
-
     <div class="feature-card">
-      <div class="feature-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
-      </div>
+      <div class="feature-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg></div>
       <h3>Synced Across Devices</h3>
       <p>Your snippets sync automatically across every Chrome device you're signed into. No account setup needed.</p>
     </div>
-
   </div>
 </section>
 
@@ -673,7 +494,6 @@
   <div class="how-inner">
     <p class="section-label">How it works</p>
     <h2 class="section-title">Copy LaTeX in seconds</h2>
-
     <div class="steps">
       <div class="step">
         <div class="step-num">1</div>
@@ -694,7 +514,7 @@
   </div>
 </section>
 
-<!-- CTA BANNER -->
+<!-- CTA -->
 <section class="cta-banner">
   <h2>Start writing LaTeX faster</h2>
   <p>Free forever. No account required. Works everywhere Chrome does.</p>
