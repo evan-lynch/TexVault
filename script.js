@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // App settings — persisted in storage under key 'appSettings'
   let appSettings = {
-    theme:             'system', // 'system' | 'light' | 'dark'
+    theme:             'light', // 'system' | 'light' | 'dark'
     hasSeenTip:        false,    // true once the first-launch onboarding tooltip has been seen
     hasSeenFolderTip:  false,    // true once the folder sidebar tip has been seen
     hasSeenViewTip:    false,    // true once the compact view tip has been seen
@@ -1448,6 +1448,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (ui.viewMode) setViewMode(ui.viewMode);
       if (ui.customSortOrder) setSortOrder(ui.customSortOrder);
 
+      // Restore scroll positions
+      if (ui.scrollCustom)    document.getElementById('panel-custom').scrollTop    = ui.scrollCustom;
+      if (ui.scrollTemplates) document.getElementById('panel-templates').scrollTop = ui.scrollTemplates;
+
       if (sidebarOpen) renderFolderSidebar();
       updateFolderIndicator();   // show indicator if a folder was restored
 
@@ -1511,10 +1515,12 @@ document.addEventListener('DOMContentLoaded', () => {
     renderTemplatesGrid();
   }
 
-  // Persists tab, view mode, and active folder for each tab across popup sessions
+  // Persists tab, view mode, active folder, and scroll positions across popup sessions
   function saveUIState() {
+    const scrollCustom    = document.getElementById('panel-custom')?.scrollTop    || 0;
+    const scrollTemplates = document.getElementById('panel-templates')?.scrollTop || 0;
     safeSyncSet({
-      uiState: { viewMode, activeTab, activeFolderCustom, activeFolderTemplates, customSortOrder }
+      uiState: { viewMode, activeTab, activeFolderCustom, activeFolderTemplates, customSortOrder, scrollCustom, scrollTemplates }
     });
   }
 
@@ -1788,5 +1794,14 @@ document.addEventListener('DOMContentLoaded', () => {
   updateSortToggleVisibility();       // hide sort button on Library tab
   updateSearchCreateVisibility();     // show create button only on Custom tab
   loadCustomSnippets();               // async: restores all state + renders grids
+
+  // Save scroll position whenever the user scrolls either panel
+  let scrollSaveTimer;
+  panels.forEach(panel => {
+    panel.addEventListener('scroll', () => {
+      clearTimeout(scrollSaveTimer);
+      scrollSaveTimer = setTimeout(saveUIState, 150);
+    });
+  });
 
 });

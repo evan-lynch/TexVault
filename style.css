@@ -1599,12 +1599,6 @@ body {
 
 .card__pin:hover { background: rgba(5, 150, 105, 0.22); }
 
-/* Pinned indicator badge on card name row */
-.card--pinned .card__name::before {
-  content:      '📌 ';
-  font-size:    9px;
-  vertical-align: middle;
-}
 
 
 /* ============================================================

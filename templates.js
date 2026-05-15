@@ -79,8 +79,15 @@ window.TEMPLATES = [
     folder: "basic-math"
   },
   {
-    name: "Floor / Ceiling",
-    code: "\\lfloor x \\rfloor \\quad \\lceil x \\rceil",
+    name: "Floor",
+    code: "\\lfloor x \\rfloor",
+    displayMode: false,
+    type: "math",
+    folder: "basic-math"
+  },
+  {
+    name: "Ceiling",
+    code: "\\lceil x \\rceil",
     displayMode: false,
     type: "math",
     folder: "basic-math"
@@ -241,8 +248,15 @@ window.TEMPLATES = [
     folder: "discrete"
   },
   {
-    name: "AND / OR",
-    code: "p \\land q \\quad p \\lor q",
+    name: "AND",
+    code: "p \\land q",
+    displayMode: false,
+    type: "math",
+    folder: "discrete"
+  },
+  {
+    name: "OR",
+    code: "p \\lor q",
     displayMode: false,
     type: "math",
     folder: "discrete"
@@ -255,43 +269,106 @@ window.TEMPLATES = [
     folder: "discrete"
   },
   {
-    name: "Implies / Iff",
-    code: "p \\Rightarrow q \\quad p \\Leftrightarrow q",
+    name: "Implies",
+    code: "p \\Rightarrow q",
     displayMode: false,
     type: "math",
     folder: "discrete"
   },
   {
-    name: "For All / Exists",
-    code: "\\forall x \\in S \\quad \\exists x \\in S",
+    name: "Iff",
+    code: "p \\Leftrightarrow q",
     displayMode: false,
     type: "math",
     folder: "discrete"
   },
   {
-    name: "Union / Intersection",
-    code: "A \\cup B \\quad A \\cap B",
+    name: "For All",
+    code: "\\forall x \\in S",
     displayMode: false,
     type: "math",
     folder: "discrete"
   },
   {
-    name: "Subset / Superset",
-    code: "A \\subseteq B \\quad A \\supseteq B",
+    name: "Exists",
+    code: "\\exists x \\in S",
+    displayMode: false,
+    type: "math",
+    folder: "discrete"
+  },
+  {
+    name: "Union",
+    code: "A \\cup B",
+    displayMode: false,
+    type: "math",
+    folder: "discrete"
+  },
+  {
+    name: "Intersection",
+    code: "A \\cap B",
+    displayMode: false,
+    type: "math",
+    folder: "discrete"
+  },
+  {
+    name: "Subset",
+    code: "A \\subseteq B",
+    displayMode: false,
+    type: "math",
+    folder: "discrete"
+  },
+  {
+    name: "Superset",
+    code: "A \\supseteq B",
     displayMode: false,
     type: "math",
     folder: "discrete"
   },
   {
     name: "Set Difference",
-    code: "A \\setminus B \\quad \\overline{A}",
+    code: "A \\setminus B",
     displayMode: false,
     type: "math",
     folder: "discrete"
   },
   {
-    name: "Number Sets",
-    code: "\\mathbb{N} \\quad \\mathbb{Z} \\quad \\mathbb{R} \\quad \\mathbb{C}",
+    name: "Complement",
+    code: "\\overline{A}",
+    displayMode: false,
+    type: "math",
+    folder: "discrete"
+  },
+  {
+    name: "Naturals ℕ",
+    code: "\\mathbb{N}",
+    displayMode: false,
+    type: "math",
+    folder: "discrete"
+  },
+  {
+    name: "Integers ℤ",
+    code: "\\mathbb{Z}",
+    displayMode: false,
+    type: "math",
+    folder: "discrete"
+  },
+  {
+    name: "Rationals ℚ",
+    code: "\\mathbb{Q}",
+    displayMode: false,
+    type: "math",
+    folder: "discrete"
+  },
+  {
+    name: "Reals ℝ",
+    code: "\\mathbb{R}",
+    displayMode: false,
+    type: "math",
+    folder: "discrete"
+  },
+  {
+    name: "Complex ℂ",
+    code: "\\mathbb{C}",
     displayMode: false,
     type: "math",
     folder: "discrete"
@@ -304,8 +381,15 @@ window.TEMPLATES = [
     folder: "discrete"
   },
   {
-    name: "GCD / LCM",
-    code: "\\gcd(a,b) \\quad \\text{lcm}(a,b)",
+    name: "GCD",
+    code: "\\gcd(a,b)",
+    displayMode: false,
+    type: "math",
+    folder: "discrete"
+  },
+  {
+    name: "LCM",
+    code: "\\text{lcm}(a,b)",
     displayMode: false,
     type: "math",
     folder: "discrete"
@@ -328,6 +412,83 @@ window.TEMPLATES = [
     name: "Summation Formula",
     code: "\\sum_{k=1}^{n} k = \\frac{n(n+1)}{2}",
     displayMode: true,
+    type: "math",
+    folder: "discrete"
+  },
+  {
+    name: "Empty Set",
+    code: "\\emptyset",
+    displayMode: false,
+    type: "math",
+    folder: "discrete"
+  },
+  {
+    name: "Power Set",
+    code: "\\mathcal{P}(A)",
+    displayMode: false,
+    type: "math",
+    folder: "discrete"
+  },
+  {
+    name: "Cartesian Product",
+    code: "A \\times B",
+    displayMode: false,
+    type: "math",
+    folder: "discrete"
+  },
+  {
+    name: "Cardinality",
+    code: "|A| = n",
+    displayMode: false,
+    type: "math",
+    folder: "discrete"
+  },
+  {
+    name: "Big Union",
+    code: "\\bigcup_{i=1}^{n} A_i",
+    displayMode: true,
+    type: "math",
+    folder: "discrete"
+  },
+  {
+    name: "Big Intersection",
+    code: "\\bigcap_{i=1}^{n} A_i",
+    displayMode: true,
+    type: "math",
+    folder: "discrete"
+  },
+  {
+    name: "XOR",
+    code: "p \\oplus q",
+    displayMode: false,
+    type: "math",
+    folder: "discrete"
+  },
+  {
+    name: "NAND",
+    code: "p \\uparrow q",
+    displayMode: false,
+    type: "math",
+    folder: "discrete"
+  },
+  {
+    name: "NOR",
+    code: "p \\downarrow q",
+    displayMode: false,
+    type: "math",
+    folder: "discrete"
+  },
+  {
+    name: "Divides",
+    code: "a \\mid b",
+    displayMode: false,
+    type: "math",
+    folder: "discrete"
+  },
+  {
+    name: "Not Divides",
+    code: "a \\nmid b",
+    displayMode: false,
     type: "math",
     folder: "discrete"
   },
@@ -505,78 +666,155 @@ window.TEMPLATES = [
   // ─── Greek Letters ────────────────────────────────────────────────────────
 
   {
-    name: "Alpha / Beta",
-    code: "\\alpha \\quad \\beta",
+    name: "Alpha",
+    code: "\\alpha",
     displayMode: false,
     type: "math",
     folder: "greek"
   },
   {
-    name: "Gamma / Delta",
-    code: "\\gamma \\quad \\delta",
+    name: "Beta",
+    code: "\\beta",
     displayMode: false,
     type: "math",
     folder: "greek"
   },
   {
-    name: "Epsilon / Zeta",
-    code: "\\epsilon \\quad \\zeta",
+    name: "Gamma",
+    code: "\\gamma",
     displayMode: false,
     type: "math",
     folder: "greek"
   },
   {
-    name: "Eta / Theta",
-    code: "\\eta \\quad \\theta",
+    name: "Delta",
+    code: "\\delta",
     displayMode: false,
     type: "math",
     folder: "greek"
   },
   {
-    name: "Iota / Kappa",
-    code: "\\iota \\quad \\kappa",
+    name: "Epsilon",
+    code: "\\epsilon",
     displayMode: false,
     type: "math",
     folder: "greek"
   },
   {
-    name: "Lambda / Mu",
-    code: "\\lambda \\quad \\mu",
+    name: "Zeta",
+    code: "\\zeta",
     displayMode: false,
     type: "math",
     folder: "greek"
   },
   {
-    name: "Nu / Xi",
-    code: "\\nu \\quad \\xi",
+    name: "Eta",
+    code: "\\eta",
     displayMode: false,
     type: "math",
     folder: "greek"
   },
   {
-    name: "Pi / Rho",
-    code: "\\pi \\quad \\rho",
+    name: "Theta",
+    code: "\\theta",
     displayMode: false,
     type: "math",
     folder: "greek"
   },
   {
-    name: "Sigma / Tau",
-    code: "\\sigma \\quad \\tau",
+    name: "Iota",
+    code: "\\iota",
     displayMode: false,
     type: "math",
     folder: "greek"
   },
   {
-    name: "Upsilon / Phi",
-    code: "\\upsilon \\quad \\phi",
+    name: "Kappa",
+    code: "\\kappa",
     displayMode: false,
     type: "math",
     folder: "greek"
   },
   {
-    name: "Chi / Psi",
-    code: "\\chi \\quad \\psi",
+    name: "Lambda",
+    code: "\\lambda",
+    displayMode: false,
+    type: "math",
+    folder: "greek"
+  },
+  {
+    name: "Mu",
+    code: "\\mu",
+    displayMode: false,
+    type: "math",
+    folder: "greek"
+  },
+  {
+    name: "Nu",
+    code: "\\nu",
+    displayMode: false,
+    type: "math",
+    folder: "greek"
+  },
+  {
+    name: "Xi",
+    code: "\\xi",
+    displayMode: false,
+    type: "math",
+    folder: "greek"
+  },
+  {
+    name: "Pi",
+    code: "\\pi",
+    displayMode: false,
+    type: "math",
+    folder: "greek"
+  },
+  {
+    name: "Rho",
+    code: "\\rho",
+    displayMode: false,
+    type: "math",
+    folder: "greek"
+  },
+  {
+    name: "Sigma",
+    code: "\\sigma",
+    displayMode: false,
+    type: "math",
+    folder: "greek"
+  },
+  {
+    name: "Tau",
+    code: "\\tau",
+    displayMode: false,
+    type: "math",
+    folder: "greek"
+  },
+  {
+    name: "Upsilon",
+    code: "\\upsilon",
+    displayMode: false,
+    type: "math",
+    folder: "greek"
+  },
+  {
+    name: "Phi",
+    code: "\\phi",
+    displayMode: false,
+    type: "math",
+    folder: "greek"
+  },
+  {
+    name: "Chi",
+    code: "\\chi",
+    displayMode: false,
+    type: "math",
+    folder: "greek"
+  },
+  {
+    name: "Psi",
+    code: "\\psi",
     displayMode: false,
     type: "math",
     folder: "greek"
@@ -589,22 +827,64 @@ window.TEMPLATES = [
     folder: "greek"
   },
   {
-    name: "Capital: Γ Δ Θ",
-    code: "\\Gamma \\quad \\Delta \\quad \\Theta",
+    name: "Gamma (Γ)",
+    code: "\\Gamma",
     displayMode: false,
     type: "math",
     folder: "greek"
   },
   {
-    name: "Capital: Λ Σ Φ",
-    code: "\\Lambda \\quad \\Sigma \\quad \\Phi",
+    name: "Delta (Δ)",
+    code: "\\Delta",
     displayMode: false,
     type: "math",
     folder: "greek"
   },
   {
-    name: "Capital: Ψ Ω Π",
-    code: "\\Psi \\quad \\Omega \\quad \\Pi",
+    name: "Theta (Θ)",
+    code: "\\Theta",
+    displayMode: false,
+    type: "math",
+    folder: "greek"
+  },
+  {
+    name: "Lambda (Λ)",
+    code: "\\Lambda",
+    displayMode: false,
+    type: "math",
+    folder: "greek"
+  },
+  {
+    name: "Sigma (Σ)",
+    code: "\\Sigma",
+    displayMode: false,
+    type: "math",
+    folder: "greek"
+  },
+  {
+    name: "Phi (Φ)",
+    code: "\\Phi",
+    displayMode: false,
+    type: "math",
+    folder: "greek"
+  },
+  {
+    name: "Psi (Ψ)",
+    code: "\\Psi",
+    displayMode: false,
+    type: "math",
+    folder: "greek"
+  },
+  {
+    name: "Omega (Ω)",
+    code: "\\Omega",
+    displayMode: false,
+    type: "math",
+    folder: "greek"
+  },
+  {
+    name: "Pi (Π)",
+    code: "\\Pi",
     displayMode: false,
     type: "math",
     folder: "greek"
@@ -612,10 +892,6 @@ window.TEMPLATES = [
 
 
   // ─── Math Environments ────────────────────────────────────────────────────
-  //
-  // NOTE on "Align": Overleaf uses \begin{align}, but KaTeX only supports
-  // \begin{aligned} in its core build. `code` is correct for Overleaf;
-  // `previewCode` is what the card renders.
 
   {
     name: "Align",
@@ -678,7 +954,6 @@ window.TEMPLATES = [
 
 
   // ─── Document Structures ──────────────────────────────────────────────────
-  // type: "text" — KaTeX cannot render these; shown as monospace fallback.
 
   {
     name: "Enumerate",
@@ -713,22 +988,64 @@ window.TEMPLATES = [
   // ─── Symbols & Arrows ─────────────────────────────────────────────────────
 
   {
-    name: "→ ← ↔",
-    code: "\\to \\quad \\leftarrow \\quad \\leftrightarrow",
+    name: "Right Arrow →",
+    code: "\\to",
     displayMode: false,
     type: "math",
     folder: "symbols"
   },
   {
-    name: "⇒ ⇐ ⇔",
-    code: "\\Rightarrow \\quad \\Leftarrow \\quad \\Leftrightarrow",
+    name: "Left Arrow ←",
+    code: "\\leftarrow",
     displayMode: false,
     type: "math",
     folder: "symbols"
   },
   {
-    name: "Long Arrows",
-    code: "\\longrightarrow \\quad \\longleftarrow \\quad \\longleftrightarrow",
+    name: "Left-Right Arrow ↔",
+    code: "\\leftrightarrow",
+    displayMode: false,
+    type: "math",
+    folder: "symbols"
+  },
+  {
+    name: "Implies ⇒",
+    code: "\\Rightarrow",
+    displayMode: false,
+    type: "math",
+    folder: "symbols"
+  },
+  {
+    name: "Implied By ⇐",
+    code: "\\Leftarrow",
+    displayMode: false,
+    type: "math",
+    folder: "symbols"
+  },
+  {
+    name: "Iff ⇔",
+    code: "\\Leftrightarrow",
+    displayMode: false,
+    type: "math",
+    folder: "symbols"
+  },
+  {
+    name: "Long Right Arrow",
+    code: "\\longrightarrow",
+    displayMode: false,
+    type: "math",
+    folder: "symbols"
+  },
+  {
+    name: "Long Left Arrow",
+    code: "\\longleftarrow",
+    displayMode: false,
+    type: "math",
+    folder: "symbols"
+  },
+  {
+    name: "Long Left-Right Arrow",
+    code: "\\longleftrightarrow",
     displayMode: false,
     type: "math",
     folder: "symbols"
@@ -741,126 +1058,308 @@ window.TEMPLATES = [
     folder: "symbols"
   },
   {
-    name: "↪ ↠ (inject/surject)",
-    code: "\\hookrightarrow \\quad \\twoheadrightarrow",
+    name: "Injection Arrow ↪",
+    code: "\\hookrightarrow",
     displayMode: false,
     type: "math",
     folder: "symbols"
   },
   {
-    name: "↑ ↓ ↕",
-    code: "\\uparrow \\quad \\downarrow \\quad \\updownarrow",
+    name: "Surjection Arrow ↠",
+    code: "\\twoheadrightarrow",
     displayMode: false,
     type: "math",
     folder: "symbols"
   },
   {
-    name: "⇑ ⇓",
-    code: "\\Uparrow \\quad \\Downarrow",
+    name: "Up Arrow ↑",
+    code: "\\uparrow",
     displayMode: false,
     type: "math",
     folder: "symbols"
   },
   {
-    name: "Diagonal Arrows",
-    code: "\\nearrow \\quad \\searrow \\quad \\swarrow \\quad \\nwarrow",
+    name: "Down Arrow ↓",
+    code: "\\downarrow",
     displayMode: false,
     type: "math",
     folder: "symbols"
   },
   {
-    name: "≤ ≥ ≠",
-    code: "\\leq \\quad \\geq \\quad \\neq",
+    name: "Up-Down Arrow ↕",
+    code: "\\updownarrow",
     displayMode: false,
     type: "math",
     folder: "symbols"
   },
   {
-    name: "≈ ~ ≅",
-    code: "\\approx \\quad \\sim \\quad \\cong",
+    name: "Double Up Arrow ⇑",
+    code: "\\Uparrow",
     displayMode: false,
     type: "math",
     folder: "symbols"
   },
   {
-    name: "≪ ≫ ∝",
-    code: "\\ll \\quad \\gg \\quad \\propto",
+    name: "Double Down Arrow ⇓",
+    code: "\\Downarrow",
     displayMode: false,
     type: "math",
     folder: "symbols"
   },
   {
-    name: "⊂ ⊃ ⊄",
-    code: "\\subset \\quad \\supset \\quad \\not\\subset",
+    name: "NE Arrow ↗",
+    code: "\\nearrow",
     displayMode: false,
     type: "math",
     folder: "symbols"
   },
   {
-    name: "∈ ∉",
-    code: "x \\in A \\quad x \\notin A",
+    name: "SE Arrow ↘",
+    code: "\\searrow",
     displayMode: false,
     type: "math",
     folder: "symbols"
   },
   {
-    name: "⊕ ⊗ ⊙",
-    code: "\\oplus \\quad \\otimes \\quad \\odot",
+    name: "SW Arrow ↙",
+    code: "\\swarrow",
     displayMode: false,
     type: "math",
     folder: "symbols"
   },
   {
-    name: "· × ÷",
-    code: "\\cdot \\quad \\times \\quad \\div",
+    name: "NW Arrow ↖",
+    code: "\\nwarrow",
     displayMode: false,
     type: "math",
     folder: "symbols"
   },
   {
-    name: "… (horizontal dots)",
-    code: "\\cdots \\quad \\ldots",
+    name: "Less or Equal ≤",
+    code: "\\leq",
     displayMode: false,
     type: "math",
     folder: "symbols"
   },
   {
-    name: "⋮ ⋱ (vert/diag dots)",
-    code: "\\vdots \\quad \\ddots",
+    name: "Greater or Equal ≥",
+    code: "\\geq",
     displayMode: false,
     type: "math",
     folder: "symbols"
   },
   {
-    name: "∴ ∵",
-    code: "\\therefore \\quad \\because",
+    name: "Not Equal ≠",
+    code: "\\neq",
     displayMode: false,
     type: "math",
     folder: "symbols"
   },
   {
-    name: "QED  □ ■",
-    code: "\\square \\quad \\blacksquare",
+    name: "Approx ≈",
+    code: "\\approx",
     displayMode: false,
     type: "math",
     folder: "symbols"
   },
   {
-    name: "∠ °",
-    code: "\\angle ABC \\quad 90^\\circ",
+    name: "Sim ~",
+    code: "\\sim",
     displayMode: false,
     type: "math",
     folder: "symbols"
   },
   {
-    name: "∥ ⊥",
-    code: "\\parallel \\quad \\perp",
+    name: "Congruent ≅",
+    code: "\\cong",
     displayMode: false,
     type: "math",
     folder: "symbols"
   },
   {
-    name: "∃! (unique exists)",
+    name: "Much Less ≪",
+    code: "\\ll",
+    displayMode: false,
+    type: "math",
+    folder: "symbols"
+  },
+  {
+    name: "Much Greater ≫",
+    code: "\\gg",
+    displayMode: false,
+    type: "math",
+    folder: "symbols"
+  },
+  {
+    name: "Proportional ∝",
+    code: "\\propto",
+    displayMode: false,
+    type: "math",
+    folder: "symbols"
+  },
+  {
+    name: "Subset ⊂",
+    code: "\\subset",
+    displayMode: false,
+    type: "math",
+    folder: "symbols"
+  },
+  {
+    name: "Superset ⊃",
+    code: "\\supset",
+    displayMode: false,
+    type: "math",
+    folder: "symbols"
+  },
+  {
+    name: "Not Subset ⊄",
+    code: "\\not\\subset",
+    displayMode: false,
+    type: "math",
+    folder: "symbols"
+  },
+  {
+    name: "Element Of ∈",
+    code: "x \\in A",
+    displayMode: false,
+    type: "math",
+    folder: "symbols"
+  },
+  {
+    name: "Not Element Of ∉",
+    code: "x \\notin A",
+    displayMode: false,
+    type: "math",
+    folder: "symbols"
+  },
+  {
+    name: "Direct Sum ⊕",
+    code: "\\oplus",
+    displayMode: false,
+    type: "math",
+    folder: "symbols"
+  },
+  {
+    name: "Tensor Product ⊗",
+    code: "\\otimes",
+    displayMode: false,
+    type: "math",
+    folder: "symbols"
+  },
+  {
+    name: "Dot Product ⊙",
+    code: "\\odot",
+    displayMode: false,
+    type: "math",
+    folder: "symbols"
+  },
+  {
+    name: "Dot ·",
+    code: "\\cdot",
+    displayMode: false,
+    type: "math",
+    folder: "symbols"
+  },
+  {
+    name: "Times ×",
+    code: "\\times",
+    displayMode: false,
+    type: "math",
+    folder: "symbols"
+  },
+  {
+    name: "Divide ÷",
+    code: "\\div",
+    displayMode: false,
+    type: "math",
+    folder: "symbols"
+  },
+  {
+    name: "Centered Dots ⋯",
+    code: "\\cdots",
+    displayMode: false,
+    type: "math",
+    folder: "symbols"
+  },
+  {
+    name: "Baseline Dots …",
+    code: "\\ldots",
+    displayMode: false,
+    type: "math",
+    folder: "symbols"
+  },
+  {
+    name: "Vertical Dots ⋮",
+    code: "\\vdots",
+    displayMode: false,
+    type: "math",
+    folder: "symbols"
+  },
+  {
+    name: "Diagonal Dots ⋱",
+    code: "\\ddots",
+    displayMode: false,
+    type: "math",
+    folder: "symbols"
+  },
+  {
+    name: "Therefore ∴",
+    code: "\\therefore",
+    displayMode: false,
+    type: "math",
+    folder: "symbols"
+  },
+  {
+    name: "Because ∵",
+    code: "\\because",
+    displayMode: false,
+    type: "math",
+    folder: "symbols"
+  },
+  {
+    name: "QED □",
+    code: "\\square",
+    displayMode: false,
+    type: "math",
+    folder: "symbols"
+  },
+  {
+    name: "QED ■",
+    code: "\\blacksquare",
+    displayMode: false,
+    type: "math",
+    folder: "symbols"
+  },
+  {
+    name: "Angle ∠",
+    code: "\\angle ABC",
+    displayMode: false,
+    type: "math",
+    folder: "symbols"
+  },
+  {
+    name: "Degree °",
+    code: "90^\\circ",
+    displayMode: false,
+    type: "math",
+    folder: "symbols"
+  },
+  {
+    name: "Parallel ∥",
+    code: "\\parallel",
+    displayMode: false,
+    type: "math",
+    folder: "symbols"
+  },
+  {
+    name: "Perpendicular ⊥",
+    code: "\\perp",
+    displayMode: false,
+    type: "math",
+    folder: "symbols"
+  },
+  {
+    name: "Unique Exists ∃!",
     code: "\\exists!\\, x \\in S",
     displayMode: false,
     type: "math",
@@ -868,77 +1367,24 @@ window.TEMPLATES = [
   },
 
 
-  // ─── Discrete Math (additional) ───────────────────────────────────────────
-
-  {
-    name: "Empty Set",
-    code: "\\emptyset",
-    displayMode: false,
-    type: "math",
-    folder: "discrete"
-  },
-  {
-    name: "Power Set",
-    code: "\\mathcal{P}(A)",
-    displayMode: false,
-    type: "math",
-    folder: "discrete"
-  },
-  {
-    name: "Cartesian Product",
-    code: "A \\times B",
-    displayMode: false,
-    type: "math",
-    folder: "discrete"
-  },
-  {
-    name: "Cardinality",
-    code: "|A| = n",
-    displayMode: false,
-    type: "math",
-    folder: "discrete"
-  },
-  {
-    name: "Big Union / Cap",
-    code: "\\bigcup_{i=1}^{n} A_i \\qquad \\bigcap_{i=1}^{n} A_i",
-    displayMode: true,
-    type: "math",
-    folder: "discrete"
-  },
-  {
-    name: "XOR",
-    code: "p \\oplus q",
-    displayMode: false,
-    type: "math",
-    folder: "discrete"
-  },
-  {
-    name: "NAND / NOR",
-    code: "p \\uparrow q \\quad p \\downarrow q",
-    displayMode: false,
-    type: "math",
-    folder: "discrete"
-  },
-  {
-    name: "Divides / Not Divides",
-    code: "a \\mid b \\quad a \\nmid b",
-    displayMode: false,
-    type: "math",
-    folder: "discrete"
-  },
-
-
   // ─── Proofs ───────────────────────────────────────────────────────────────
 
   {
-    name: "Therefore / Because",
-    code: "\\therefore \\quad \\because",
+    name: "Therefore ∴",
+    code: "\\therefore",
     displayMode: false,
     type: "math",
     folder: "proofs"
   },
   {
-    name: "QED",
+    name: "Because ∵",
+    code: "\\because",
+    displayMode: false,
+    type: "math",
+    folder: "proofs"
+  },
+  {
+    name: "QED ■",
     code: "\\blacksquare",
     displayMode: false,
     type: "math",

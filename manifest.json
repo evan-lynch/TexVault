@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "TexVault",
   "short_name": "TexVault",
-  "version": "1.0",
+  "version": "1.1",
   "description": "Your LaTeX snippet vault. Browse 100+ built-in templates or save your own, organized into folders and ready to copy instantly.",
 
   "icons": {
