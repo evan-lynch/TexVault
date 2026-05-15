@@ -46,12 +46,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const TEMPLATE_FOLDERS = [
     { id: 'basic-math',     name: 'Basic Math' },
     { id: 'calculus',       name: 'Calculus' },
-    { id: 'discrete',       name: 'Discrete Math' },
+    { id: 'trigonometry',   name: 'Trigonometry' },
     { id: 'linear-algebra', name: 'Linear Algebra' },
+    { id: 'discrete',       name: 'Discrete Math' },
     { id: 'probability',    name: 'Probability' },
+    { id: 'physics',        name: 'Physics' },
     { id: 'symbols',        name: 'Symbols & Arrows' },
-    { id: 'proofs',         name: 'Proofs' },
+    { id: 'accents',        name: 'Accents & Notation' },
     { id: 'greek',          name: 'Greek Letters' },
+    { id: 'proofs',         name: 'Proofs' },
     { id: 'environments',   name: 'Environments' },
     { id: 'document',       name: 'Document' },
   ];
